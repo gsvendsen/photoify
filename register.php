@@ -1,8 +1,5 @@
-<?php require __DIR__.'/views/header.php'; ?>
 
 <article>
-    <h1>Create Account</h1>
-
     <?php if(isset($_SESSION['error'])): ?>
       <div class="alert alert-danger" role="alert">
         <?= $_SESSION['error']['message'] ?>
@@ -12,7 +9,7 @@
     <form action="app/users/create.php" method="post">
         <div class="form-group">
             <label for="email">Email</label>
-            <input class="form-control" type="email" name="email" placeholder="francis@darjeeling.com" required>
+            <input class="form-control" type="email" name="email" placeholder="example@mail.com" required>
             <small class="form-text text-muted">Please provide the your email address.</small>
         </div><!-- /form-group -->
 
@@ -30,6 +27,7 @@
 
         <button type="submit" class="btn btn-primary">Create Account</button>
     </form>
+
 </article>
 <?php if(isset($_SESSION['error'])){ unset($_SESSION['error']) ;}; ?>
 
