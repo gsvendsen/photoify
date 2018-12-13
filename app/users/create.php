@@ -11,6 +11,7 @@ if(isset($_POST['email'], $_POST['password'], $_POST['name'])){
   $name = filter_var(trim($_POST['name']), FILTER_SANITIZE_STRING);
   $passwordHash = password_hash(filter_var(trim($_POST['password']), FILTER_SANITIZE_STRING), PASSWORD_BCRYPT);
 
+  // Checks if user already exists
   $selectStatement = $pdo->prepare('SELECT * FROM users WHERE email = :email');
 
   $selectStatement->bindParam(':email', $email, PDO::PARAM_STR);
