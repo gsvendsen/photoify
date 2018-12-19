@@ -46,6 +46,12 @@ if(isset($_POST['email'], $_POST['password'], $_POST['name'])){
       'email' => $user['email'],
     ];
 
+    $dir = __DIR__."/../data/{$user['id']}";
+    mkdir($dir, 0777, true);
+    mkdir($dir."/posts", 0777, true);
+    mkdir($dir."/profile", 0777, true);
+
+
     $_SESSION['messages'][] = "Created new account successfully!";
 
   } else {
