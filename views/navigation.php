@@ -13,7 +13,8 @@
             </a>
 
             <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                <a class="dropdown-item" href="/">Home</a>
+              <a class="dropdown-item" href="/">Home</a>
+              <a class="dropdown-item" href="/post.php">New Post</a>
               <a class="dropdown-item" href="/profile.php">My Profile</a>
               <a class="dropdown-item" href="/app/users/logout.php">Log Out</a>
             </div>
