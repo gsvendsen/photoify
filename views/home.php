@@ -30,9 +30,8 @@ $userPosts = $selectStatement->fetchAll(PDO::FETCH_ASSOC);
 <?php foreach($userPosts as $post): ?>
     <div class="card">
       <div class="card-body">
-        <h5 class="card-title">Card title</h5>
+        <img class="col-10" src="<?= $post['img_path'] ?>"/>
         <p class="card-text"><?= $post['description'] ?></p>
-        <a href="#" class="btn btn-primary">Go somewhere</a>
       </div>
   </div>
 <?php endforeach; ?>
