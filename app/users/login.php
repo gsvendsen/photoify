@@ -27,7 +27,7 @@ if(isset($_POST['email'], $_POST['password'])){
         'message' => "User with that email does not exist.",
         'email' => "",
       ];
-      redirect("/login.php");
+      redirect("/");
 
     // If user exists and password matches
     } elseif(password_verify($_POST['password'], $user['password'])){
