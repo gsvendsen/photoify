@@ -19,18 +19,39 @@ if(isset($_FILES['image'], $_POST['description'])){
             $date = getDate();
             $formatDate = "{$date['year']}-{$date['mon']}-{$date['mday']}";
 
-            $statement = $pdo->prepare('INSERT INTO posts (user_id, description, date, image) VALUES (:user_id, :description, :date, :image)');
+            $statement = $pdo->prepare('INSERT INTO posts (user_id, description, date) VALUES (:user_id, :description, :date)');
 
             $statement->bindParam(':user_id', $_SESSION['user']['id'], PDO::PARAM_INT);
             $statement->bindParam(':description', $description, PDO::PARAM_STR);
             $statement->bindParam(':date', $formatDate, PDO::PARAM_STR);
-            $statement->bindParam(':image', $_FILES['image']['name'], PDO::PARAM_STR);
 
             $statement->execute();
 
+            $postId = $pdo->lastInsertId();
+
+            $postDir = __DIR__."/../data/{$_SESSION['user']['id']}/posts/{$postId}";
+
+            mkdir($postDir, 0777, true);
+
+            $info = explode('.', strtolower( $_FILES['image']['name']) );
+            move_uploaded_file( $_FILES['image']['tmp_name'], "{$postDir}/phoimg_{$postId}.{$info[1]}");
+
+            $dbDir = "/app/data/{$_SESSION['user']['id']}/posts/{$postId}/phoimg_{$postId}.{$info[1]}";
+
+            $statement2 = $pdo->prepare('UPDATE posts SET img_path = :img_path WHERE id = :id');
+
+            if(!$statement2){
+                print_r($pdo->errorInfo());
+            }
+
+            $statement2->bindParam(':img_path', $dbDir, PDO::PARAM_STR);
+            $statement2->bindParam(':id', $postId, PDO::PARAM_STR);
+
+            $statement2->execute();
+
             $_SESSION['messages'][] = "New post was uploaded!";
 
-            mkdir("../data/dog", 0777);
+
 
         } else {
             $_SESSION['error']['message'] = "No description was given!";
