@@ -11,7 +11,7 @@
       </div>
     <?php endif;?>
 
-    <form action="app/users/update.php" method="post">
+    <form action="app/users/update.php" method="post" enctype="multipart/form-data">
         <div class="form-group">
             <label for="email">Email</label>
             <input class="form-control" type="email" value="<?= $user['email'] ?>" name="email" placeholder="francis@darjeeling.com">
@@ -20,6 +20,11 @@
         <div class="form-group">
             <label for="name">Name</label>
             <input class="form-control" type="text" value="<?= $user['name'] ?>" name="name">
+        </div><!-- /form-group -->
+
+        <div class="form-group">
+            <label for="profile-picture">Update Profile Picture</label>
+            <input class="form-control" type="file" name="profile-picture">
         </div><!-- /form-group -->
 
         <div class="form-group">
@@ -34,6 +39,8 @@
 
         <button type="submit" class="btn btn-primary">Update Information</button>
     </form>
+
+    <a href="/app/users/delete.php" class="btn btn-primary mt-1 alert-danger" role="button" aria-pressed="true">Delete Account</a>
 </article>
 <?php if(isset($_SESSION['error'])){ unset($_SESSION['error']) ;}; ?>
 
