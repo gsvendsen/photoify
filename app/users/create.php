@@ -45,6 +45,7 @@ if(isset($_POST['email'], $_POST['password'], $_POST['name'])){
       'id' => $user['id'],
       'name' => $user['name'],
       'email' => $user['email'],
+      'img_path' => $user['image_path']
     ];
 
     $dir = __DIR__."/../data/{$user['id']}";

@@ -65,6 +65,7 @@ if(!isset($_SESSION['user'])){
 
     }
 
+    // If email update was posted
     if(isset($_POST['email']) && $_POST['email'] !== $_SESSION['user']['email']){
         $name = filter_var(trim($_POST['email']), FILTER_SANITIZE_STRING);
 
@@ -77,6 +78,32 @@ if(!isset($_SESSION['user'])){
 
         $_SESSION['messages'][] = "Your email has been updated!";
 
+    }
+
+    // Updates profile picture if file was uploaded
+    if(isset($_FILES['profile-picture'])){
+        $fileTypes = ['image/png', 'image/jpg'];
+
+        if(in_array($_FILES['profile-picture']['type'], $fileTypes)){
+
+        $userPath = __DIR__."/../data/{$_SESSION['user']['id']}/profile";
+
+        $info = explode('.', strtolower( $_FILES['profile-picture']['name']) );
+        move_uploaded_file( $_FILES['profile-picture']['tmp_name'], "{$userPath}/phoimg_dp.{$info[1]}");
+
+        $dbPath = "/app/data/{$_SESSION['user']['id']}/profile/phoimg_dp.{$info[1]}";
+
+        $statement = $pdo->prepare('UPDATE users SET image_path = :image_path WHERE id = :id');
+
+        $statement->bindParam(':image_path', $dbPath, PDO::PARAM_STR);
+        $statement->bindParam(':id', $_SESSION['user']['id'], PDO::PARAM_STR);
+
+        $statement->execute();
+
+        $_SESSION['messages'][] = "Your DP has been updated!";
+
+
+        }
     }
 }
 
@@ -93,6 +120,7 @@ $_SESSION['user'] = [
   'id' => $user['id'],
   'name' => $user['name'],
   'email' => $user['email'],
+  'img_path' => $user['image_path']
 ];
 
 redirect("/");
