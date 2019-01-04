@@ -1,33 +1,36 @@
 
 <article>
-    <?php if(isset($_SESSION['error'])): ?>
-      <div class="alert alert-danger" role="alert">
-        <?= $_SESSION['error']['message'] ?>
-      </div>
-    <?php endif;?>
+    <h2>New Account</h2>
 
     <form action="app/users/create.php" method="post">
-        <div class="form-group">
+        <div class="form-section">
             <label for="email">Email</label>
-            <input class="form-control" type="email" name="email" placeholder="example@mail.com" required>
-            <small class="form-text text-muted">Please provide the your email address.</small>
+            <input type="email" name="email" placeholder="example@mail.com" required>
+            <small>Please provide the your email address.</small>
         </div><!-- /form-group -->
 
-        <div class="form-group">
+        <div class="form-section">
             <label for="name">Name</label>
-            <input class="form-control" type="text" name="name" required>
-            <small class="form-text text-muted">Please provide the your name.</small>
+            <input type="text" name="name" required>
+            <small>Please provide your name.</small>
         </div><!-- /form-group -->
 
-        <div class="form-group">
+        <div class="form-section">
             <label for="password">Password</label>
-            <input class="form-control" type="password" name="password" required>
-            <small class="form-text text-muted">Please provide the your password.</small>
+            <input type="password" name="password" placeholder="•••••••" required>
+            <small>Please provide your password.</small>
         </div><!-- /form-group -->
 
-        <button type="submit" class="btn btn-primary">Create Account</button>
+        <div class="form-center">
+            <?php if(isset($_SESSION['error'])): ?>
+              <p class="warning-message">
+                <?= $_SESSION['error']['message'] ?>
+             </p>
+            <?php endif;?>
+            <button type="submit">Create Account</button>
+            <p>Already Have An Account? <a href="?q=login">Login</a>
+        </div>
     </form>
-
 </article>
 <?php if(isset($_SESSION['error'])){ unset($_SESSION['error']) ;}; ?>
 
