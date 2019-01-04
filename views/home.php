@@ -21,35 +21,4 @@ $userPosts = $selectStatement->fetchAll(PDO::FETCH_ASSOC);
 
 <?php endif; ?>
 
-<h4>Your Posts:</h4>
-<?php foreach($userPosts as $post): ?>
-    <div class="card">
-      <div class="card-body">
-        <img class="col-10" src="<?= $post['img_path'] ?>"/>
-        <p class="card-text"><?= $post['description'] ?></p>
-        <a href="/app/posts/delete.php?locale=<?= $post['id'] ?>" class="btn btn-primary">Delete Post</a>
-        <a href="/app/likes/update.php?post=<?= $post['id'] ?>&like=1" class="btn btn-primary">Like</a>
-        <a href="/app/likes/update.php?post=<?= $post['id'] ?>&like=-1" class="btn btn-primary">Dislike</a>
-        <?php
-
-        // Fetching posts likes
-        $selectStatement = $pdo->prepare('SELECT like FROM likes WHERE post_id = :post_id');
-
-        $selectStatement->bindParam(':post_id', $post['id'], PDO::PARAM_STR);
-
-        $selectStatement->execute();
-
-        $likes = $selectStatement->fetchAll(PDO::FETCH_ASSOC);
-
-        $likeTotal = 0;
-
-        // Adds up all likes and dislikes into likeTotal
-        foreach ($likes as $like => $value) {
-            $likeTotal += $value['like'];
-        }
-
-        ?>
-        <p class="card-text"> Amount of likes: <?= $likeTotal ?></p>
-      </div>
-  </div>
-<?php endforeach; ?>
+<?php require __DIR__.'/posts.php'; ?>
