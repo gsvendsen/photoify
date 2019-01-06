@@ -17,27 +17,26 @@ $selectStatement->bindParam(':post_id', $postId, PDO::PARAM_STR);
 
 $selectStatement->execute();
 
-$editPost = $selectStatement->fetchAll(PDO::FETCH_ASSOC);
+$editPost = $selectStatement->fetch(PDO::FETCH_ASSOC);
 
 if(!$editPost){
     $_SESSION['messages'][] = "Post you tried to edit does not exist!";
     redirect("/");
 }
 
-if($editPost[0]['user_id'] !== $_SESSION['user']['id']){
+if($editPost['user_id'] !== $_SESSION['user']['id']){
     $_SESSION['messages'][] = "You do not have permission to edit that post!";
     redirect("/");
 }
 
-echo $editPost[0]['description'];
 ?>
 <article>
     <h1>Edit Post</h1>
 
-    <form action="app/posts/update.php?post=<?= $editPost[0]['id'] ?>" method="post" enctype="multipart/form-data">
+    <form action="app/posts/update.php?post=<?= $editPost['id'] ?>" method="post" enctype="multipart/form-data">
         <div class="form-group">
             <label for="description">Description</label>
-            <textarea class="form-control" type="text" name="description"><?= $editPost[0]['description'] ?></textarea>
+            <textarea class="form-control" type="text" name="description"><?= $editPost['description'] ?></textarea>
         </div><!-- /form-group -->
 
         <button type="submit" class="btn btn-primary">Upload new Post</button>
