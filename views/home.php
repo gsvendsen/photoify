@@ -21,4 +21,8 @@ $userPosts = $selectStatement->fetchAll(PDO::FETCH_ASSOC);
 
 <?php endif; ?>
 
-<?php require __DIR__.'/posts.php'; ?>
+<?php if(isset($_GET['u'])): ?>
+    <?php require __DIR__."/profile.php"; ?>
+<?php else: ?>
+    <?php require __DIR__.'/posts.php'; ?>
+<?php endif; ?>
