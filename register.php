@@ -10,6 +10,12 @@
         </div><!-- /form-group -->
 
         <div class="form-section">
+            <label for="username">Username</label>
+            <input type="text" name="username" required>
+            <small>Please provide the your username.</small>
+        </div><!-- /form-group -->
+
+        <div class="form-section">
             <label for="name">Name</label>
             <input type="text" name="name" required>
             <small>Please provide your name.</small>
@@ -23,7 +29,7 @@
 
         <div class="form-center">
             <?php if(isset($_SESSION['error'])): ?>
-              <p class="warning-message">
+              <p class="warning-messagepå">
                 <?= $_SESSION['error']['message'] ?>
              </p>
             <?php endif;?>
