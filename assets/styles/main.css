@@ -5,6 +5,15 @@ body {
     color:white;
 }
 
+* {
+    margin:0;
+    padding:0;
+}
+
+p {
+    margin:0;
+}
+
 .form-section {
     display:flex;
     flex-direction: column;
@@ -82,6 +91,9 @@ article {
 
 .post-container {
     width:100%;
+    background-color:white;
+    color:black;
+    margin:0 0 25px 0;
 }
 
 .post-image {
@@ -89,6 +101,29 @@ article {
 }
 
 .post-profile {
-    width:50px;
+    width:40px;
+    height:40px;
     border-radius:50%;
+    margin:0 10px 0 0;
+}
+
+.post-options {
+    margin:5px 0;
+}
+
+.post-info {
+    display:flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    padding: 10px;
+}
+
+.post-user {
+    display:flex;
+    align-items: center;
+    margin:5px 0;
+}
+
+.profile {
+    margin-bottom:15px;
 }
