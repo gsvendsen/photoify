@@ -82,7 +82,7 @@ if(!isset($_SESSION['user'])){
 
     // Updates profile picture if file was uploaded
     if(isset($_FILES['profile-picture'])){
-        $fileTypes = ['image/png', 'image/jpg'];
+        $fileTypes = ['image/png', 'image/jpg', 'image/jpeg'];
 
         if(in_array($_FILES['profile-picture']['type'], $fileTypes)){
 

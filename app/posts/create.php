@@ -7,7 +7,7 @@ require __DIR__.'/../autoload.php';
 
 if(isset($_FILES['image'], $_POST['description'])){
 
-    $fileTypes = ['image/png', 'image/jpg'];
+    $fileTypes = ['image/png', 'image/jpg', 'image/jpeg'];
 
     $description = filter_var(trim($_POST['description']),FILTER_SANITIZE_STRING);
 
