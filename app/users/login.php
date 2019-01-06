@@ -36,7 +36,8 @@ if(isset($_POST['email'], $_POST['password'])){
         'id' => $user['id'],
         'name' => $user['name'],
         'email' => $user['email'],
-        'img_path' => $user['image_path']
+        'img_path' => $user['image_path'],
+        'username' => $user['username'],
       ];
 
       $_SESSION['messages'][] = "Logged in successfully!";
