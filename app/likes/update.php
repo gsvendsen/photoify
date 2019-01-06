@@ -51,6 +51,12 @@ if(isset($_GET['post'], $_GET['like'])){
                 $statement->execute();
 
             }
+
+            if(isset($_GET['location'])){
+                $userLocation = filter_var($_GET['location'], FILTER_SANITIZE_STRING);
+                redirect("/?u={$userLocation}");
+            }
+
         }
     }
 }
