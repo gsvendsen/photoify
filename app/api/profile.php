@@ -63,6 +63,20 @@ if(!isset($_GET['user'])){
             $userPosts2[] = $post;
         }
 
+        // Checks if user already follows id
+        $selectStatement = $pdo->prepare('SELECT * FROM follows WHERE follower_id = :user_id AND following_id = :follow_id');
+        $selectStatement->bindParam(':user_id', $_SESSION['user']['id'], PDO::PARAM_STR);
+        $selectStatement->bindParam(':follow_id', $user['id'], PDO::PARAM_STR);
+        $selectStatement->execute();
+
+        $followExists = $selectStatement->fetchAll(PDO::FETCH_ASSOC);
+
+        if(!$followExists){
+            $user['follows'] = "false";
+        } else {
+            $user['follows'] = "true";
+        }
+
         $user['posts'] = $userPosts2;
 
         $jsonData = json_encode($user);
