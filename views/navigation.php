@@ -1,7 +1,7 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <a class="navbar-brand" href="#"><?php echo $config['title']; ?></a>
+  <a class="navbar-brand" href="/"><?php echo $config['title']; ?></a>
   <?php if(isset($_SESSION['user'])): ?>
-  <img class="col-2 rounded-circle" src="<?= $_SESSION['user']['img_path'] ?>" alt="">
+  <img class="post-profile" src="<?= $_SESSION['user']['img_path'] ?>" alt="">
   <?php endif; ?>
   <ul class="navbar-nav">
       <!-- If logged out -->
