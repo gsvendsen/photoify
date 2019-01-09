@@ -13,7 +13,7 @@ if(!isset($_GET['user'])){
     $userQuery = filter_var($_GET['user'],FILTER_SANITIZE_STRING);
 
     // Fetches user data
-    $selectStatement = $pdo->prepare('SELECT * FROM users WHERE username = :username');
+    $selectStatement = $pdo->prepare('SELECT id, name, username, image_path FROM users WHERE username = :username');
 
     $selectStatement->bindParam(':username', $userQuery, PDO::PARAM_STR);
 
@@ -58,7 +58,27 @@ if(!isset($_GET['user'])){
                 $post['auth'] = 'false';
             }
 
+            // Checking if user has liked post
+            $selectStatement = $pdo->prepare('SELECT * FROM likes WHERE user_id = :user_id AND post_id = :post_id');
+            $selectStatement->bindParam(':user_id', $_SESSION['user']['id'], PDO::PARAM_STR);
+            $selectStatement->bindParam(':post_id', $post['id'], PDO::PARAM_STR);
+            $selectStatement->execute();
+
+            $likeExists = $selectStatement->fetch(PDO::FETCH_ASSOC);
+
+            if($likeExists){
+                if($likeExists['like'] == 1){
+                    $post['liked'] = true;
+                } else {
+                    $post['liked'] = false;
+                }
+            } else {
+                $post['liked'] = false;
+            }
+
             $post['likes'] = $likeTotal;
+
+            $post['user'] = $user;
 
             $userPosts2[] = $post;
         }
