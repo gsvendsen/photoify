@@ -32,6 +32,12 @@ p {
     color:#DC143C;
 }
 
+.heart-icon {
+    height:30px;
+    width:30px;
+    margin:0 10px 0 0;
+}
+
 small {
     margin:10px 0 0 0;
 }
@@ -79,7 +85,7 @@ button {
 .wrapper {
     display:flex;
     justify-content: center;
-    padding:25px 20px;
+    padding:25px 0;
 }
 
 article {
@@ -109,6 +115,7 @@ article {
 
 .post-options {
     margin:5px 0;
+    display:flex;
 }
 
 .post-info {
@@ -122,6 +129,10 @@ article {
     display:flex;
     align-items: center;
     margin:5px 0;
+}
+
+.post-likes {
+    margin:0 20px 0 0;
 }
 
 .profile {
