@@ -8,7 +8,7 @@ function Comparator(a, b) {
 
 const createTimeline = (timelineData) => {
     console.log(timelineData)
-    postContainer.innerHTML += createPosts2(timelineData);
+    postContainer.innerHTML += createPosts(timelineData);
 }
 
 

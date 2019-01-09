@@ -13,8 +13,7 @@ function fetchProfile(userId) {
     if(userData.error){
         profileContainer.innerHTML += 'User "'+username+'" does not exist!';
     } else {
-        profileContainer.innerHTML += createProfile(userData);
-        profileContainer.innerHTML += createPosts(userPosts, userData);
+        profileContainer.innerHTML += createPosts(userPosts);
     }
 
   });
