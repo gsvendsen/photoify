@@ -33,13 +33,17 @@ if($editPost['user_id'] !== $_SESSION['user']['id']){
 <article>
     <h1>Edit Post</h1>
 
+
+    <img class="post-image" src="<?=$editPost['img_path'] ?>"/>
+
     <form action="app/posts/update.php?post=<?= $editPost['id'] ?>" method="post" enctype="multipart/form-data">
         <div class="form-group">
             <label for="description">Description</label>
             <textarea class="form-control" type="text" name="description"><?= $editPost['description'] ?></textarea>
         </div><!-- /form-group -->
 
-        <button type="submit" class="btn btn-primary">Upload new Post</button>
+        <a href="/" class="btn btn-primary">Go Back</a>
+        <button type="submit" class="btn btn-primary">Update Post</button>
     </form>
 </article>
 <?php if(isset($_SESSION['error'])){ unset($_SESSION['error']) ;}; ?>
