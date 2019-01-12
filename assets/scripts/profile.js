@@ -13,7 +13,9 @@ function fetchProfile(userId) {
     if(userData.error){
         profileContainer.innerHTML += 'User "'+username+'" does not exist!';
     } else {
+        profileContainer.innerHTML += createProfile(userData);
         profileContainer.innerHTML += createPosts(userPosts);
+        addEvents();
     }
 
   });
@@ -31,16 +33,26 @@ const createProfile = (userData) => {
         <a href="?u=${userData.username}">${userData.username}</a>
         `
 
-    if(userData.follows == "false"){
-        profilePage += `
-                <a href="app/follows/update.php?follow=${userData.id}&location=${userData.username}">Follow</a>
+    if(!userData.self){
+
+        if(userData.follows == "false"){
+            profilePage += `
+            <a href="app/follows/update.php?follow=${userData.id}&location=${userData.username}">Follow</a>
             </div>
-        `
+            `
+        } else {
+            profilePage += `
+            <a href="app/follows/update.php?follow=${userData.id}&location=${userData.username}&unfollow=true">Unfollow</a>
+            </div>
+            `
+        }
     } else {
+
         profilePage += `
-                <a href="app/follows/update.php?follow=${userData.id}&location=${userData.username}&unfollow=true">Unfollow</a>
-            </div>
+        <a href="../profile.php">Edit Profile</a>
+        </div>
         `
+
     }
 
     return profilePage
