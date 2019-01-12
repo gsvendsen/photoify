@@ -20,8 +20,7 @@ if(isset($_GET['post'], $_GET['like'])){
         $postExists = $selectStatement->fetchAll(PDO::FETCH_ASSOC);
 
         if(!$postExists){
-            $_SESSION['messages'][] = "Post you tried to like does not exist";
-            redirect("/");
+
         } else {
 
             // Checks if user has already liked post
@@ -54,13 +53,18 @@ if(isset($_GET['post'], $_GET['like'])){
 
             if(isset($_GET['location'])){
                 $userLocation = filter_var($_GET['location'], FILTER_SANITIZE_STRING);
-                redirect("/?u={$userLocation}");
             }
 
         }
     }
 }
 
+header('Content-Type: application/json');
+$return['success'] = true;
+
+$jsonData = json_encode($return);
+
+header('Content-Type: application/json');
 
 
-redirect("/");
+echo $jsonData;
