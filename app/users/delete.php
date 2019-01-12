@@ -27,6 +27,20 @@ if(!isset($_SESSION['user'])){
 
     $statement->execute();
 
+    // Removes user from likes table
+    $statement = $pdo->prepare("DELETE FROM likes WHERE user_id = :id");
+
+    $statement->bindParam(":id", $_SESSION['user']['id'], PDO::PARAM_STR);
+
+    $statement->execute();
+
+    // Removes user from follows table
+    $statement = $pdo->prepare("DELETE FROM follows WHERE follower_id = :id OR following_id = :id");
+
+    $statement->bindParam(":id", $_SESSION['user']['id'], PDO::PARAM_STR);
+
+    $statement->execute();
+
     // Removes user data directory and all its content from data Directory
     $dirPath = __DIR__."/../data/{$_SESSION['user']['id']}";
 
