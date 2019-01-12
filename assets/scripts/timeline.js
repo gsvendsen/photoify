@@ -20,6 +20,7 @@ function fetchTimeline(userId) {
   })
   .then(function(myJson) {
     createTimeline(myJson);
+    addEvents();
   });
 }
 
@@ -33,6 +34,6 @@ function fetchUserId() {
   });
 }
 
-if(getUrlParameter('u') == ""){
+if(getUrlParameter('u') == "" && postContainer !== null){
     fetchUserId()
 }
