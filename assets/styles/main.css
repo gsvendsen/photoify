@@ -1,13 +1,17 @@
 body {
     padding:0;
     margin:0;
-    background-color:#363A46;
+    background-color:#413F54;
     color:white;
 }
 
 * {
     margin:0;
     padding:0;
+}
+
+a {
+    color:#AF929D;
 }
 
 p {
@@ -36,6 +40,19 @@ p {
     height:30px;
     width:30px;
     margin:0 10px 0 0;
+}
+
+.icon {
+    height:30px;
+    width:30px;
+}
+
+.icon > path {
+    fill: #939393;
+}
+
+.active > path {
+    fill:white;
 }
 
 small {
@@ -85,7 +102,7 @@ button {
 .wrapper {
     display:flex;
     justify-content: center;
-    padding:25px 0;
+    padding:70px 0;
 }
 
 article {
@@ -137,4 +154,130 @@ article {
 
 .profile {
     margin-bottom:15px;
+    padding:10px;
+}
+
+/* NAVBAR STYLING */
+
+.bar {
+ position: relative;
+ width: 30px;
+ margin:3px;
+ height: 2px;
+ background: white;
+}
+
+.bar:before {
+ content: '';
+ position: absolute;
+ width: 100%;
+ height: 100%;
+ background: inherit;
+ left: 0;
+ top: -10px;
+ transform-origin: center center;
+ transition: transform .25s ease, top .25s ease, bottom .25s ease;
+}
+
+.bar:after {
+ content: '';
+ position: absolute;
+ width: 100%;
+ height: 100%;
+ background: inherit;
+ left: 0;
+ bottom: -10px;
+ transform-origin: center center;
+ transition: transform .25s ease, top .25s ease, bottom .25s ease;
+}
+
+.bottom-bar.visible {
+     opacity: 1;
+     height:50px;
+   }
+
+   .bottom-bar {
+     width:100%;
+     height:50px;
+     background-color: #0D1317;
+     display: flex;
+     justify-content: space-around;
+     align-items: center;
+     position:fixed;
+     bottom:0;
+     opacity:1;
+     padding:30px 20px;
+     transition:all 0.2s ease-in-out;
+     z-index: 2;
+   }
+
+   .top-bar {
+     width:100%;
+     height:50px;
+     background-color: #0D1317;
+     display: flex;
+     align-items: center;
+     justify-content: space-between;
+     position:fixed;
+     top:0;
+     opacity:1;
+     transition:all 0.2s ease-in-out;
+     z-index: 2;
+     padding:30px 20px;
+     box-sizing: border-box;
+   }
+
+   .menu-list {
+     display:flex;
+     width:100%;
+     justify-content: flex-end;
+     align-items: center;
+   }
+
+   .menu {
+     height:0;
+     width:100%;
+     background-color:  #D2D6EF;
+     opacity:0;
+     transition:all 0.5s ease-in-out;
+     display:flex;
+     bottom: -100%;
+     position:fixed;
+     top:0;
+     overflow: hidden;
+     z-index:1;
+     padding:0 0 50px 55px;
+     box-sizing: border-box;
+     align-items: center;
+   }
+
+   .open {
+  opacity:1;
+  height:100vh;
+}
+
+.clicked.bar {
+	background: transparent;
+}
+
+.clicked.bar::before{
+  transform: rotate(45deg);
+  top: 0;
+  background: #FFFF;
+}
+
+.clicked.bar::after{
+  transform: rotate(-45deg);
+  bottom: 0;
+  background: #FFFF;
+}
+
+.no-scroll {
+  overflow-y: hidden;
+}
+
+/* MEDIA QUERI */
+
+div.hide {
+    opacity:0;
 }
