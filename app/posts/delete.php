@@ -26,6 +26,10 @@ if(!isset($_GET['locale'])){
         $statement->bindParam(':id', $deleteId, PDO::PARAM_INT);
         $statement->execute();
 
+        $statement = $pdo->prepare('DELETE FROM likes WHERE post_id = :id');
+        $statement->bindParam(':id', $deleteId, PDO::PARAM_INT);
+        $statement->execute();
+
         $_SESSION['messages'][] = "Post was deleted";
         redirect("/");
     }
