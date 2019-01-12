@@ -21,12 +21,12 @@ if(!isset($_GET['user'])){
 
     $follows = $selectStatement->fetchAll(PDO::FETCH_ASSOC);
 
-    if(!$follows){
-        $follows['error'] = "User does not follow anyone.";
-        $jsonData = json_encode($follows);
-        header('Content-Type: application/json');
-        echo $jsonData;
-    } else {
+    // if(!$follows){
+    //     $follows['error'] = "User does not follow anyone.";
+    //     $jsonData = json_encode($follows);
+    //     header('Content-Type: application/json');
+    //     echo $jsonData;
+    // } else {
 
         // Maps following connections into array of user ids that $userQuery follows
         $followingUsers = array_map(function ($follow) {
@@ -37,7 +37,8 @@ if(!isset($_GET['user'])){
         $implodedArray = implode(',', $followingUsers);
 
 
-        $selectStatement = $pdo->prepare("SELECT * FROM posts WHERE user_id IN ($implodedArray) ORDER BY id DESC");
+        $selectStatement = $pdo->prepare("SELECT * FROM posts WHERE user_id IN ($implodedArray) OR user_id=:user_id ORDER BY id DESC");
+        $selectStatement->bindParam(':user_id', $_SESSION['user']['id'], PDO::PARAM_STR);
         $selectStatement->execute();
         $timelinePosts = $selectStatement->fetchAll(PDO::FETCH_ASSOC);
 
@@ -107,4 +108,3 @@ if(!isset($_GET['user'])){
 
         echo $jsonData;
     }
-}
