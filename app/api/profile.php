@@ -29,7 +29,7 @@ if(!isset($_GET['user'])){
     } else {
 
         // Fetches all posts from user
-        $selectStatement = $pdo->prepare('SELECT * FROM posts WHERE user_id = :user_id');
+        $selectStatement = $pdo->prepare('SELECT * FROM posts WHERE user_id = :user_id ORDER BY id DESC');
         $selectStatement->bindParam(':user_id', $user['id'], PDO::PARAM_STR);
         $selectStatement->execute();
         $userPosts = $selectStatement->fetchAll(PDO::FETCH_ASSOC);
@@ -96,6 +96,8 @@ if(!isset($_GET['user'])){
         } else {
             $user['follows'] = "true";
         }
+
+        $user['self'] = $user['username'] == $_SESSION['user']['username'];
 
         $user['posts'] = $userPosts2;
 
