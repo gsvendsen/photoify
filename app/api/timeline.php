@@ -21,90 +21,82 @@ if(!isset($_GET['user'])){
 
     $follows = $selectStatement->fetchAll(PDO::FETCH_ASSOC);
 
-    // if(!$follows){
-    //     $follows['error'] = "User does not follow anyone.";
-    //     $jsonData = json_encode($follows);
-    //     header('Content-Type: application/json');
-    //     echo $jsonData;
-    // } else {
-
-        // Maps following connections into array of user ids that $userQuery follows
-        $followingUsers = array_map(function ($follow) {
-            return $follow['following_id'];
-        }, $follows);
+    $followingUsers = array_map(function ($follow) {
+        return $follow['following_id'];
+    }, $follows);
 
 
-        $implodedArray = implode(',', $followingUsers);
+    $implodedArray = implode(',', $followingUsers);
 
 
-        $selectStatement = $pdo->prepare("SELECT * FROM posts WHERE user_id IN ($implodedArray) OR user_id=:user_id ORDER BY id DESC");
-        $selectStatement->bindParam(':user_id', $_SESSION['user']['id'], PDO::PARAM_STR);
+    $selectStatement = $pdo->prepare("SELECT * FROM posts WHERE user_id IN ($implodedArray) OR user_id=:user_id ORDER BY id DESC");
+    $selectStatement->bindParam(':user_id', $_SESSION['user']['id'], PDO::PARAM_STR);
+    $selectStatement->execute();
+    $timelinePosts = $selectStatement->fetchAll(PDO::FETCH_ASSOC);
+
+    foreach ($timelinePosts as $post) {
+        // Fetching posts likes
+        $selectStatement = $pdo->prepare('SELECT like FROM likes WHERE post_id = :post_id');
+
+        $selectStatement->bindParam(':post_id', $post['id'], PDO::PARAM_STR);
+
         $selectStatement->execute();
-        $timelinePosts = $selectStatement->fetchAll(PDO::FETCH_ASSOC);
 
-        foreach ($timelinePosts as $post) {
-            // Fetching posts likes
-            $selectStatement = $pdo->prepare('SELECT like FROM likes WHERE post_id = :post_id');
-
-            $selectStatement->bindParam(':post_id', $post['id'], PDO::PARAM_STR);
-
-            $selectStatement->execute();
-
-            $likes = $selectStatement->fetchAll(PDO::FETCH_ASSOC);
+        $likes = $selectStatement->fetchAll(PDO::FETCH_ASSOC);
 
 
-            $likeTotal = 0;
-            // Adds up all likes and dislikes into likeTotal
-            foreach ($likes as $like => $value) {
-                $likeTotal += $value['like'];
-            }
+        $likeTotal = 0;
+        // Adds up all likes and dislikes into likeTotal
+        foreach ($likes as $like => $value) {
+            $likeTotal += $value['like'];
+        }
 
-            // Fetching posts user
-            $selectStatement = $pdo->prepare('SELECT id, name, username, image_path FROM users WHERE id = :user_id');
+        // Fetching posts user
+        $selectStatement = $pdo->prepare('SELECT id, name, username, image_path FROM users WHERE id = :user_id');
 
-            $selectStatement->bindParam(':user_id', $post['user_id'], PDO::PARAM_STR);
+        $selectStatement->bindParam(':user_id', $post['user_id'], PDO::PARAM_STR);
 
-            $selectStatement->execute();
+        $selectStatement->execute();
 
-            $postUser = $selectStatement->fetch(PDO::FETCH_ASSOC);
+        $postUser = $selectStatement->fetch(PDO::FETCH_ASSOC);
 
-            if($post['user_id'] == $_SESSION['user']['id']){
-                $post['auth'] = 'true';
-            } else {
-                $post['auth'] = 'false';
-            }
+        if($post['user_id'] == $_SESSION['user']['id']){
+            $post['auth'] = 'true';
+        } else {
+            $post['auth'] = 'false';
+        }
 
-            // Checking if user has liked post
-            $selectStatement = $pdo->prepare('SELECT * FROM likes WHERE user_id = :user_id AND post_id = :post_id');
-            $selectStatement->bindParam(':user_id', $_SESSION['user']['id'], PDO::PARAM_STR);
-            $selectStatement->bindParam(':post_id', $post['id'], PDO::PARAM_STR);
-            $selectStatement->execute();
+        // Checking if user has liked post
+        $selectStatement = $pdo->prepare('SELECT * FROM likes WHERE user_id = :user_id AND post_id = :post_id');
+        $selectStatement->bindParam(':user_id', $_SESSION['user']['id'], PDO::PARAM_STR);
+        $selectStatement->bindParam(':post_id', $post['id'], PDO::PARAM_STR);
+        $selectStatement->execute();
 
-            $likeExists = $selectStatement->fetch(PDO::FETCH_ASSOC);
+        $likeExists = $selectStatement->fetch(PDO::FETCH_ASSOC);
 
 
-            if($likeExists){
-                if($likeExists['like'] == 1){
-                    $post['liked'] = true;
-                } else {
-                    $post['liked'] = false;
-                }
+        if($likeExists){
+            if($likeExists['like'] == 1){
+                $post['liked'] = true;
             } else {
                 $post['liked'] = false;
             }
-
-
-            $post['user'] = $postUser;
-
-            $post['likes'] = $likeTotal;
-
-            $timelinePosts2[] = $post;
+        } else {
+            $post['liked'] = false;
         }
 
-        $jsonData = json_encode($timelinePosts2);
 
-        header('Content-Type: application/json');
+        $post['user'] = $postUser;
 
+        $post['likes'] = $likeTotal;
 
-        echo $jsonData;
+        $timelinePosts2[] = $post;
     }
+
+    $jsonData = json_encode($timelinePosts2);
+
+    header('Content-Type: application/json');
+
+
+    echo $jsonData;
+}
