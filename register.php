@@ -1,5 +1,5 @@
 
-<article>
+<div class="form-wrapper">
     <h2>New Account</h2>
 
     <form action="app/users/create.php" method="post">
@@ -23,8 +23,8 @@
 
         <div class="form-section">
             <label for="password">Password</label>
-            <input type="password" name="password" placeholder="•••••••" required>
-            <small>Please provide your password.</small>
+            <input type="password" name="password" placeholder="••••••••" required>
+            <small>Please provide your password. (min 8 chars)</small>
         </div><!-- /form-group -->
 
         <div class="form-center">
@@ -37,7 +37,7 @@
             <p>Already Have An Account? <a href="?q=login">Login</a>
         </div>
     </form>
-</article>
+</div>
 <?php if(isset($_SESSION['error'])){ unset($_SESSION['error']) ;}; ?>
 
 <?php require __DIR__.'/views/footer.php'; ?>
