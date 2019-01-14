@@ -48,7 +48,7 @@ if(isset($_POST['email'], $_POST['password'])){
         'message' => "Credentials do not match.",
         'email' => $email,
       ];
-      redirect("/login.php");
+      redirect("/");
     }
   }
 }
