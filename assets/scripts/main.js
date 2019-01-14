@@ -12,12 +12,6 @@ const updateLike = (post, isLiked, likeCall, likeCounter) => {
 
         if(isLiked == "true"){
             post.childNodes[1].childNodes[1].setAttribute("fill", "grey")
-            likeCount = parseInt(likeCounter.innerHTML)
-            likeCount--;
-            if(likeCount === 0){
-                likeCount = -1
-            }
-            likeCounter.innerHTML = likeCount;
             post.dataset.liked = false;
         } else {
             console.log("Already disliked this post..")
@@ -27,13 +21,6 @@ const updateLike = (post, isLiked, likeCall, likeCounter) => {
 
         if(isLiked == "false"){
             post.childNodes[1].childNodes[1].setAttribute("fill", "red")
-
-            likeCount = parseInt(likeCounter.innerHTML)
-            likeCount++;
-            if(likeCount === 0){
-                likeCount = 1
-            }
-            likeCounter.innerHTML = likeCount;
             post.dataset.liked = true;
         } else {
             console.log("Already liked this post..")
@@ -42,14 +29,73 @@ const updateLike = (post, isLiked, likeCall, likeCounter) => {
     }
 }
 
+const createComments = (postId, commentElement) => {
+    console.log(postId)
+    console.log(commentElement)
+    commentElement.innerHTML = ""
+
+    fetch(`../../app/api/comments.php?post=${postId}`)
+    .then(function(response) {
+      return response.json();
+    })
+    .then(function(commentData) {
+        console.log(commentData)
+        if(commentData.error == null){
+
+            commentData.forEach((comment) => {
+
+                let commentDiv = `
+                <div class="comment">
+                    <img class="comment-profile" src="${comment.user.image_path}" />
+                    <a href="/?u=${comment.user.username}">${comment.user.username}</a>
+                    <p class="comment-content">${comment.content}</p>
+                `;
+
+
+                if(comment.self == true){
+                commentDiv += `
+                    <a class="comment-delete" href="/app/comments/delete.php?id=${comment.id}">Delete</a>
+                `
+                }
+
+                commentDiv += `
+                </div>
+                `
+
+                commentElement.innerHTML += commentDiv;
+
+
+            })
+        } else {
+            commentDiv.innerHTML += `
+            <p class="comment-content">This post does not have any comments!</p>
+            `
+        }
+
+    });
+}
+
+const postNewComment = (commentContent, postId) => {
+    fetch(`../../app/comments/create.php?post=${postId}&content=${commentContent}`)
+    .then(function(response) {
+      return response.json();
+    })
+    .then(function(myJson) {
+        console.log(myJson)
+    });
+}
+
 const addEvents = () => {
     const likeButtons = document.querySelectorAll('.like-button')
     const dislikeButtons = document.querySelectorAll('.dislike-button')
+    const commentButtons = document.querySelectorAll('.comment-button')
+    const newCommentButtons = document.querySelectorAll('.submit-comment')
+    const hideCommentButtons = document.querySelectorAll('.hide-comment-button')
 
     likeButtons.forEach(likebutton => {
         likebutton.addEventListener('click', (e)=>{
             if(e.target.classList.contains('like-button')){
-                postId = e.target.parentNode.dataset.id;
+                postId = e.target.parentNode.parentNode.dataset.id;
                 postLiked = e.target.parentNode.dataset.liked;
                 likeAmount = e.target.parentNode.querySelector('.post-likes')
 
@@ -60,6 +106,7 @@ const addEvents = () => {
                   return response.json();
                 })
                 .then(function(myJson) {
+                    likeAmount.innerHTML = myJson.likes
                 });
             }
         })
@@ -68,10 +115,9 @@ const addEvents = () => {
     dislikeButtons.forEach(dislikebutton => {
         dislikebutton.addEventListener('click', (e)=>{
             if(e.target.classList.contains('dislike-button')){
-                postId = e.target.parentNode.dataset.id;
+                postId = e.target.parentNode.parentNode.dataset.id;
                 postLiked = e.target.parentNode.dataset.liked;
                 likeAmount = e.target.parentNode.querySelector('.post-likes')
-
                 updateLike(e.target.parentNode, postLiked, "dislike", likeAmount);
 
                 fetch(`../../app/likes/update.php?post=${postId}&like=-1`)
@@ -79,8 +125,50 @@ const addEvents = () => {
                   return response.json();
                 })
                 .then(function(myJson) {
+                    likeAmount.innerHTML = myJson.likes
                 });
             }
+        })
+    })
+
+    commentButtons.forEach(commentButton => {
+        commentButton.addEventListener('click', (e)=>{
+            if(e.target.classList.contains('comment-button')){
+                postId = e.target.parentNode.dataset.id;
+                container = e.target.parentNode.querySelector('.comment-container');
+                e.target.parentNode.querySelector('.hide-comment-button').classList.toggle('hidden')
+                e.target.classList.toggle('hidden')
+                console.log(container)
+
+                createComments(postId, container)
+
+            }
+        })
+    })
+
+    newCommentButtons.forEach(button => {
+        console.log(button)
+        button.addEventListener('click', (e) => {
+            commentContent = e.target.parentNode.querySelector('.comment-input').value;
+            postId = e.target.dataset.id;
+            commentContainer = e.target.parentNode.parentNode.querySelector('.comment-container')
+            commentButton = e.target.parentNode.parentNode.querySelector('.comment-button')
+            commentButton.classList.add('hidden')
+
+            postNewComment(commentContent, postId)
+            createComments(postId, commentContainer)
+            e.target.parentNode.querySelector('.comment-input').value = "";
+        })
+    })
+
+    hideCommentButtons.forEach(button => {
+        console.log(button)
+        button.addEventListener('click', (e) => {
+            e.target.classList.toggle('hidden')
+            e.target.parentNode.querySelector('.comment-button').classList.toggle('hidden')
+            e.target.parentNode.querySelector('.comment-container').innerHTML = ""
+
+
         })
     })
 }
@@ -95,14 +183,14 @@ const createPosts = (postData) => {
             <div class="post-container">
               <div class="post">
                 <img class="post-image" src="${post.img_path}"/>
-                <div class="post-info">
+                <div class="post-info" data-id="${post.id}">
                     <p>${post.description}</p>
                     <div class="post-user">
                         <img class="post-profile" src="${userData.image_path}"/>
-                        <p>${userData.name}</p>
+                        <p class="post-name">${userData.name}</p>
                         <a href="?u=${userData.username}">(${userData.username})</a>
                     </div>
-                    <div class="post-options" data-id="${post.id}" data-liked="${post.liked}">
+                    <div class="post-options" data-liked="${post.liked}">
                         `;
         // Shows non liked heart referring to like update
         if(post.liked === false){
@@ -148,9 +236,18 @@ const createPosts = (postData) => {
         }
             postMarkup += `
                         </div>
+                        <p class="comment-button">View Comments</p>
+                        <p class="hide-comment-button hidden">Hide Comments</p>
+
+                        <div class="comment-container">
+                        </div>
                     </div>
                 </div><!-- /post -->
-              </div>
+                <div class="comment-field">
+                    <input placeholder="Enter your comment here.." type="text" class="comment-input" data-id="${post.id}">
+                    <button class="submit-comment" data-id="${post.id}">+</button>
+                </div>
+              </div><!-- /post-container -->
             `
 
     })
@@ -165,35 +262,33 @@ const menu = document.querySelector('.menu');
 
 
 /* Hamburger menu toggle for mobile/tablet */
-hamButton.addEventListener("click", ()=>{
-  hamBar.classList.toggle("clicked");
-  menu.classList.toggle("open");
-  document.body.classList.toggle("no-scroll");
-});
+if(hamButton !== null){
+    hamButton.addEventListener("click", ()=>{
+        hamBar.classList.toggle("clicked");
+        menu.classList.toggle("open");
+        document.body.classList.toggle("no-scroll");
+    });
+}
 
 const homeButton = document.querySelector('.home-icon');
 const postButton = document.querySelector('.post-icon');
 const profileButton = document.querySelector('.profile-icon');
 
 const pathname = window.location.pathname;
-console.log(pathname);
 
-if(pathname == "/post.php"){
+if(pathname == "/post.php" && postButton !== null){
     console.log("On post page.")
-
     postButton.classList.toggle('active');
-} else if (pathname == "/" && getUrlParameter('u') == "") {
+} else if (pathname == "/" && getUrlParameter('u') == "" && homeButton !== null) {
     console.log("On home page.")
     homeButton.classList.toggle('active');
-} else if (getUrlParameter('u') !== ""){
+} else if (getUrlParameter('u') !== "" && profileButton !== null){
     console.log("On profile page.")
     profileButton.classList.toggle('active')
 }
 
 const inputs = document.querySelectorAll('textarea');
 const bottomNav = document.querySelector('.bottom-bar')
-
-console.log(bottomNav)
 
 inputs.forEach(input => {
     console.log(input)
@@ -206,3 +301,15 @@ inputs.forEach(input => {
         bottomNav.classList.toggle('hide');
     })
 })
+
+var openFile = function(event) {
+    var input = event.target;
+
+    var reader = new FileReader();
+    reader.onload = function(){
+      var dataURL = reader.result;
+      var output = document.getElementById('output');
+      output.src = dataURL;
+    };
+    reader.readAsDataURL(input.files[0]);
+  };
