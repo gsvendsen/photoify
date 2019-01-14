@@ -120,6 +120,7 @@ $_SESSION['user'] = [
   'id' => $user['id'],
   'name' => $user['name'],
   'email' => $user['email'],
+  'username' => $user['username'],
   'img_path' => $user['image_path']
 ];
 
