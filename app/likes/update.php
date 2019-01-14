@@ -42,6 +42,7 @@ if(isset($_GET['post'], $_GET['like'])){
                 $statement->execute();
             } else {
 
+                // Adds like to likes table
                 $statement = $pdo->prepare('UPDATE likes SET like=:like WHERE user_id = :user_id AND post_id = :post_id');
                 $statement->bindParam(':user_id', $_SESSION['user']['id'], PDO::PARAM_STR);
                 $statement->bindParam(':post_id', $postId, PDO::PARAM_STR);
@@ -49,22 +50,40 @@ if(isset($_GET['post'], $_GET['like'])){
 
                 $statement->execute();
 
+
             }
 
             if(isset($_GET['location'])){
                 $userLocation = filter_var($_GET['location'], FILTER_SANITIZE_STRING);
             }
 
+            // Adds like to likes table
+            $statement = $pdo->prepare('SELECT like FROM likes WHERE post_id = :post_id');
+            $statement->bindParam(':post_id', $postId, PDO::PARAM_STR);
+
+            $statement->execute();
+
+            $likes = $statement->fetchAll(PDO::FETCH_ASSOC);
+
+            $likeTotal = 0;
+            // Adds up all likes and dislikes into likeTotal
+            foreach ($likes as $like => $value) {
+                $likeTotal += $value['like'];
+            }
+
+
+            if(!isset($likeTotal)){
+                $likeTotal = 0;
+            }
+
+            $return['likes'] = $likeTotal;
+
         }
     }
 }
 
 header('Content-Type: application/json');
-$return['success'] = true;
 
 $jsonData = json_encode($return);
-
-header('Content-Type: application/json');
-
 
 echo $jsonData;
