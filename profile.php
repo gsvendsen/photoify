@@ -2,7 +2,7 @@
 
 
 <?php if(!isset($_SESSION['user'])){ redirect("/"); } else { $user = $_SESSION['user'];}?>
-<article>
+<div class="new-post-container">
     <h1>Update Information</h1>
 
     <?php if(isset($_SESSION['error'])): ?>
@@ -41,7 +41,7 @@
     </form>
 
     <a href="/app/users/delete.php" class="btn btn-primary mt-1 alert-danger" role="button" aria-pressed="true">Delete Account</a>
-</article>
+</div>
 <?php if(isset($_SESSION['error'])){ unset($_SESSION['error']) ;}; ?>
 
 <?php require __DIR__.'/views/footer.php'; ?>
