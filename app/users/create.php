@@ -13,6 +13,10 @@ if(isset($_POST['email'], $_POST['password'], $_POST['name'])){
   $passwordHash = password_hash(filter_var(trim($_POST['password']), FILTER_SANITIZE_STRING), PASSWORD_BCRYPT);
   $imagePath = "/assets/images/phoimg_default.png";
 
+  if(strlen($_POST['password']) < 8){
+      $_SESSION['error']['message'] = "Password is too short (min 8 characterss)";
+      redirect("/?q=register");
+  }
   // Checks if user with email already exists
   $selectStatement = $pdo->prepare('SELECT * FROM users WHERE email = :email OR username = :username');
 
