@@ -37,8 +37,8 @@ p {
 }
 
 .heart-icon {
-    height:30px;
-    width:30px;
+    height:25px;
+    width:25px;
     margin:0 10px 0 0;
 }
 
@@ -148,6 +148,10 @@ article {
     margin:5px 0;
 }
 
+.post-name {
+    margin:0 5px 0 0;
+}
+
 .post-likes {
     margin:0 20px 0 0;
 }
@@ -155,6 +159,60 @@ article {
 .profile {
     margin-bottom:15px;
     padding:10px;
+}
+
+.form-wrapper {
+    padding: 0 20px;
+}
+
+.hidden {
+    display:none;
+}
+
+.comment {
+    display:flex;
+    align-items: center;
+    margin:10px 0 10px 0;
+}
+
+.comment-content {
+    margin:0 0 0 10px;
+}
+
+.comment-field {
+    display:flex;
+    justify-content: space-between;
+    border:grey 2px solid;
+    padding:10px;
+}
+
+.comment-input {
+    width:70%;
+    color:black;
+}
+
+.comment-delete {
+    margin-left: auto;
+}
+
+.comment-profile {
+    width:20px;
+    height:20px;
+    border-radius:50%;
+    margin:0 10px 0 0;
+}
+
+.comment-container {
+}
+
+.submit-comment {
+    width:20%;
+    border-radius:0;
+    padding:5px;
+}
+
+.new-post-container {
+    padding:20px 10px;
 }
 
 /* NAVBAR STYLING */
