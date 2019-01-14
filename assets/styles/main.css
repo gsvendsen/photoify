@@ -33,8 +33,11 @@ p {
 }
 
 .warning-message {
-    color:#DC143C;
+    color:red;
+
 }
+
+
 
 .heart-icon {
     height:25px;
@@ -157,8 +160,22 @@ article {
 }
 
 .profile {
-    margin-bottom:15px;
+    margin-bottom:30px;
     padding:10px;
+    position:relative;
+    z-index:1;
+}
+
+.profile-banner {
+    height:185px;
+    width:100%;
+    position:absolute;
+    opacity:0.6;
+    left:0;
+    top:0;
+    margin-top:-10px;
+    z-index:-5;
+    box-shadow: 0 5px 8px black;
 }
 
 .form-wrapper {
@@ -182,7 +199,7 @@ article {
 .comment-field {
     display:flex;
     justify-content: space-between;
-    border:grey 2px solid;
+    border-top:grey 1px solid;
     padding:10px;
 }
 
@@ -280,7 +297,7 @@ article {
      top:0;
      opacity:1;
      transition:all 0.2s ease-in-out;
-     z-index: 2;
+     z-index: 5;
      padding:30px 20px;
      box-sizing: border-box;
    }
@@ -303,7 +320,7 @@ article {
      position:fixed;
      top:0;
      overflow: hidden;
-     z-index:1;
+     z-index:3;
      padding:0 0 50px 55px;
      box-sizing: border-box;
      align-items: center;
