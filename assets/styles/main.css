@@ -1,21 +1,25 @@
+@import url('https://fonts.googleapis.com/css?family=Karla');
+
 body {
     padding:0;
     margin:0;
-    background-color:#413F54;
+    background-color:#564E58;
     color:white;
 }
 
 * {
     margin:0;
     padding:0;
+    font-family: 'Karla', sans-serif;
 }
 
 a {
-    color:#AF929D;
+    color:#FD6A02;
 }
 
 p {
     margin:0;
+    font-size:14px;
 }
 
 .form-section {
@@ -46,8 +50,8 @@ p {
 }
 
 .icon {
-    height:30px;
-    width:30px;
+    height:20px;
+    width:20px;
 }
 
 .icon > path {
@@ -105,7 +109,7 @@ button {
 .wrapper {
     display:flex;
     justify-content: center;
-    padding:70px 0;
+    padding:60px 0;
 }
 
 article {
@@ -124,6 +128,7 @@ article {
 
 .post-image {
     width:100%;
+    max-height: 550px;
 }
 
 .post-profile {
@@ -155,19 +160,24 @@ article {
     margin:0 5px 0 0;
 }
 
-.post-likes {
-    margin:0 20px 0 0;
+.profile-info {
+    display:flex;
+    align-items:center;
+    width:100%;
 }
 
 .profile {
-    margin-bottom:30px;
-    padding:10px;
+    margin-bottom:40px;
+    height:80px;
+    padding:0 20px;
     position:relative;
     z-index:1;
+    display:flex;
+    align-items: center;
 }
 
 .profile-banner {
-    height:185px;
+    height:110px;
     width:100%;
     position:absolute;
     opacity:0.6;
@@ -176,6 +186,10 @@ article {
     margin-top:-10px;
     z-index:-5;
     box-shadow: 0 5px 8px black;
+}
+
+.dislike-button {
+    margin-left:10px;
 }
 
 .form-wrapper {
@@ -200,7 +214,7 @@ article {
     display:flex;
     justify-content: space-between;
     border-top:grey 1px solid;
-    padding:10px;
+    padding:0 0 0 10px;
 }
 
 .comment-input {
@@ -220,6 +234,13 @@ article {
 }
 
 .comment-container {
+    transition:1s all ease-in-out;
+}
+
+.grow {
+    height:auto;
+    transition:1s all ease-in-out;
+
 }
 
 .submit-comment {
@@ -281,9 +302,18 @@ article {
      position:fixed;
      bottom:0;
      opacity:1;
-     padding:30px 20px;
+     padding:0 20px;
      transition:all 0.2s ease-in-out;
      z-index: 2;
+   }
+
+   .right-side {
+       margin-left:auto;
+   }
+
+   .top-profile {
+       height:30px;
+       width:30px;
    }
 
    .top-bar {
@@ -298,7 +328,7 @@ article {
      opacity:1;
      transition:all 0.2s ease-in-out;
      z-index: 5;
-     padding:30px 20px;
+     padding:0 20px;
      box-sizing: border-box;
    }
 
@@ -355,4 +385,5 @@ article {
 
 div.hide {
     opacity:0;
+    display:none;
 }
