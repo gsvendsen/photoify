@@ -31,8 +31,9 @@ if(!isset($_GET['post'])){
         $comments = [];
 
         foreach ($commentsData as $comment) {
+
             // Fetching posts user
-            $selectStatement = $pdo->prepare('SELECT username, image_path FROM users WHERE id = :user_id');
+            $selectStatement = $pdo->prepare('SELECT id, username, image_path FROM users WHERE id = :user_id');
 
             $selectStatement->bindParam(':user_id', $comment['user_id'], PDO::PARAM_STR);
 
@@ -42,7 +43,7 @@ if(!isset($_GET['post'])){
 
             $comment['user'] = $commentUser;
 
-            if($comment['user']['id'] = $_SESSION['user']['id']){
+            if($comment['user']['id'] == $_SESSION['user']['id']){
                 $comment['self'] = true;
             } else {
                 $comment['self'] = false;
