@@ -14,6 +14,34 @@ if(!isset($_SESSION['user'])){
 } else {
 
     // Removes all of users posts
+    $statement = $pdo->prepare("SELECT * FROM posts WHERE user_id = :id");
+
+    $statement->bindParam(":id", $_SESSION['user']['id'], PDO::PARAM_STR);
+
+    $statement->execute();
+
+    $userPosts = $statement->fetchAll(PDO::FETCH_ASSOC);
+
+    if($userPosts !== false){
+        foreach($userPosts as $post){
+
+            // Removes likes on users posts table
+            $statement = $pdo->prepare("DELETE FROM likes WHERE post_id = :id");
+
+            $statement->bindParam(":id", $post['id'], PDO::PARAM_STR);
+
+            $statement->execute();
+
+            // Removes comments on users posts table
+            $statement = $pdo->prepare("DELETE FROM comments WHERE post_id = :id");
+
+            $statement->bindParam(":id", $post['id'], PDO::PARAM_STR);
+
+            $statement->execute();
+        }
+    }
+
+    // Removes all of users posts
     $statement = $pdo->prepare("DELETE FROM posts WHERE user_id = :id");
 
     $statement->bindParam(":id", $_SESSION['user']['id'], PDO::PARAM_STR);
