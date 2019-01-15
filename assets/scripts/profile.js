@@ -26,34 +26,37 @@ if(getUrlParameter('u') !== ""){
 }
 
 const createProfile = (userData) => {
+    console.log(userData.banner_image_path)
     let profilePage = `
     <div class="profile">
-        <h3>${userData.name}</h3>
-        <img class="post-profile" src="${userData.image_path}"/>
-        <a href="?u=${userData.username}">${userData.username}</a>
+        <div class="profile-info">
+            <img class="post-profile" src="${userData.image_path}"/>
+            <a href="?u=${userData.username}">${userData.username}</a>
         `
 
     if(!userData.self){
 
         if(userData.follows == "false"){
             profilePage += `
-            <a href="app/follows/update.php?follow=${userData.id}&location=${userData.username}">Follow</a>
-            </div>
+            <a class="right-side" href="app/follows/update.php?follow=${userData.id}&location=${userData.username}">Follow</a>
             `
         } else {
             profilePage += `
-            <a href="app/follows/update.php?follow=${userData.id}&location=${userData.username}&unfollow=true">Unfollow</a>
-            </div>
+            <a class="right-side" href="app/follows/update.php?follow=${userData.id}&location=${userData.username}&unfollow=true">Unfollow</a>
             `
         }
     } else {
 
         profilePage += `
-        <a href="../profile.php">Edit Profile</a>
-        </div>
-        `
-
+        <a class="right-side" href="../profile.php">Edit Profile</a>
+    `
     }
+
+    profilePage += `
+        <img class="profile-banner" src="${userData.banner_image_path}">
+        </div>
+    </div>
+    `
 
     return profilePage
 }
