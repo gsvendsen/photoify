@@ -1,7 +1,7 @@
 <!-- Navbar for mobile/tablet -->
 <?php if(isset($_SESSION['user'])): ?>
 	<div class="top-bar">
-        <a href="/?u=<?= $_SESSION['user']['username']?>"><img class="post-profile" src="<?= $_SESSION['user']['img_path'] ?>" alt=""></a>
+        <a href="/?u=<?= $_SESSION['user']['username']?>"><img class="post-profile top-profile" src="<?= $_SESSION['user']['img_path'] ?>" alt=""></a>
         <a href="/">Home</a>
         <div class="hamburger-menu">
 			<div class="bar"></div>
