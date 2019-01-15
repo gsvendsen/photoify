@@ -29,7 +29,7 @@
 
         <div class="form-center">
             <?php if(isset($_SESSION['error'])): ?>
-              <p class="warning-messagepå">
+              <p class="warning-message">
                 <?= $_SESSION['error']['message'] ?>
              </p>
             <?php endif;?>
