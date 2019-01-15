@@ -86,24 +86,70 @@ if(!isset($_SESSION['user'])){
 
         if(in_array($_FILES['profile-picture']['type'], $fileTypes)){
 
+            $userPath = __DIR__."/../data/{$_SESSION['user']['id']}/profile";
+
+            $info = explode('.', strtolower( $_FILES['profile-picture']['name']) );
+            move_uploaded_file( $_FILES['profile-picture']['tmp_name'], "{$userPath}/phoimg_dp.{$info[1]}");
+
+            $dbPath = "/app/data/{$_SESSION['user']['id']}/profile/phoimg_dp.{$info[1]}";
+
+            $statement = $pdo->prepare('UPDATE users SET image_path = :image_path WHERE id = :id');
+
+            $statement->bindParam(':image_path', $dbPath, PDO::PARAM_STR);
+            $statement->bindParam(':id', $_SESSION['user']['id'], PDO::PARAM_STR);
+
+            $statement->execute();
+
+            $_SESSION['messages'][] = "Your DP has been updated!";
+
+        }
+    }
+
+    // Updates profile banner if file was uploaded
+    if(isset($_FILES['banner-picture'])){
+        $fileTypes = ['image/png', 'image/jpg', 'image/jpeg'];
+
+        if(in_array($_FILES['banner-picture']['type'], $fileTypes)){
+
         $userPath = __DIR__."/../data/{$_SESSION['user']['id']}/profile";
 
-        $info = explode('.', strtolower( $_FILES['profile-picture']['name']) );
-        move_uploaded_file( $_FILES['profile-picture']['tmp_name'], "{$userPath}/phoimg_dp.{$info[1]}");
+        $info = explode('.', strtolower( $_FILES['banner-picture']['name']) );
+        move_uploaded_file( $_FILES['banner-picture']['tmp_name'], "{$userPath}/phoimg_banner.{$info[1]}");
 
-        $dbPath = "/app/data/{$_SESSION['user']['id']}/profile/phoimg_dp.{$info[1]}";
+        $dbPath = "/app/data/{$_SESSION['user']['id']}/profile/phoimg_banner.{$info[1]}";
 
-        $statement = $pdo->prepare('UPDATE users SET image_path = :image_path WHERE id = :id');
+        $statement = $pdo->prepare('UPDATE users SET banner_image_path = :image_path WHERE id = :id');
 
         $statement->bindParam(':image_path', $dbPath, PDO::PARAM_STR);
         $statement->bindParam(':id', $_SESSION['user']['id'], PDO::PARAM_STR);
 
         $statement->execute();
 
-        $_SESSION['messages'][] = "Your DP has been updated!";
+        $_SESSION['messages'][] = "Your banner picture has been updated!";
 
 
         }
+    }
+
+    // If username update was posted
+    if(isset($_POST['username']) && $_POST['username'] !== $_SESSION['user']['username'] && $_POST['username'] !== ""){
+        $username = filter_var(trim($_POST['username']), FILTER_SANITIZE_STRING);
+
+        if(preg_match('/\s/',$username) ){
+            $_SESSION['error']['message'] = "Username can't contain spaces!";
+        } else {
+
+            $updateStatement = $pdo->prepare("UPDATE users SET username = :username WHERE id = :id");
+
+            $updateStatement->bindParam(':username', $username, PDO::PARAM_STR);
+            $updateStatement->bindParam(':id', $id, PDO::PARAM_STR);
+
+            $updateStatement->execute();
+
+            $_SESSION['messages'][] = "Your username has been updated!";
+
+        }
+
     }
 }
 
@@ -121,7 +167,9 @@ $_SESSION['user'] = [
   'name' => $user['name'],
   'email' => $user['email'],
   'username' => $user['username'],
-  'img_path' => $user['image_path']
+  'img_path' => $user['image_path'],
+  'banner_path' => $user['banner_image_path'],
+
 ];
 
 redirect("/");
