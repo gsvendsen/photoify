@@ -3,9 +3,8 @@
 declare(strict_types=1);
 
 require __DIR__.'/../autoload.php';
-
 // In this file we login users.
-if(isset($_POST['email'], $_POST['password'], $_POST['name'])){
+if(isset($_POST['email'], $_POST['password'], $_POST['name'], $_POST['username'])){
 
   $email = filter_var(trim($_POST['email']), FILTER_SANITIZE_STRING);
   $username = filter_var(trim($_POST['username']), FILTER_SANITIZE_STRING);
@@ -15,6 +14,11 @@ if(isset($_POST['email'], $_POST['password'], $_POST['name'])){
 
   if(strlen($_POST['password']) < 8){
       $_SESSION['error']['message'] = "Password is too short (min 8 characterss)";
+      redirect("/?q=register");
+  }
+
+  if(preg_match('/\s/',$username) ){
+      $_SESSION['error']['message'] = "Username can't contain spaces!";
       redirect("/?q=register");
   }
   // Checks if user with email already exists
@@ -28,14 +32,20 @@ if(isset($_POST['email'], $_POST['password'], $_POST['name'])){
   $user = $selectStatement->fetch(PDO::FETCH_ASSOC);
 
   if(!$user){
+
+
     // Insert user data into user table in database
-    $statement = $pdo->prepare('INSERT INTO users (name, email, password, image_path, username) VALUES (:name, :email, :password, :image_path, :username)');
+    $statement = $pdo->prepare('INSERT INTO users (name, email, password, image_path, banner_image_path, username) VALUES (:name, :email, :password, :image_path, :banner_image_path, :username)');
 
     $statement->bindParam(':name', $name, PDO::PARAM_STR);
     $statement->bindParam(':email', $email, PDO::PARAM_STR);
     $statement->bindParam(':password', $passwordHash, PDO::PARAM_STR);
     $statement->bindParam(':image_path', $imagePath, PDO::PARAM_STR);
+    $statement->bindParam(':banner_image_path', $imagePath, PDO::PARAM_STR);
     $statement->bindParam(':username', $username, PDO::PARAM_STR);
+
+
+
 
     $statement->execute();
 
@@ -53,6 +63,7 @@ if(isset($_POST['email'], $_POST['password'], $_POST['name'])){
       'name' => $user['name'],
       'email' => $user['email'],
       'img_path' => $user['image_path'],
+      'banner_path' => $user['banner_image_path'],
       'username' => $user['username'],
 
     ];
