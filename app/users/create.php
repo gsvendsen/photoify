@@ -32,8 +32,6 @@ if(isset($_POST['email'], $_POST['password'], $_POST['name'], $_POST['username']
   $user = $selectStatement->fetch(PDO::FETCH_ASSOC);
 
   if(!$user){
-
-
     // Insert user data into user table in database
     $statement = $pdo->prepare('INSERT INTO users (name, email, password, image_path, banner_image_path, username) VALUES (:name, :email, :password, :image_path, :banner_image_path, :username)');
 
@@ -43,9 +41,6 @@ if(isset($_POST['email'], $_POST['password'], $_POST['name'], $_POST['username']
     $statement->bindParam(':image_path', $imagePath, PDO::PARAM_STR);
     $statement->bindParam(':banner_image_path', $imagePath, PDO::PARAM_STR);
     $statement->bindParam(':username', $username, PDO::PARAM_STR);
-
-
-
 
     $statement->execute();
 
