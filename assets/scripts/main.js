@@ -25,13 +25,10 @@ const updateLike = (post, isLiked, likeCall, likeCounter) => {
         } else {
             console.log("Already liked this post..")
         }
-
     }
 }
 
 const createComments = (postId, commentElement) => {
-    console.log(postId)
-    console.log(commentElement)
     commentElement.innerHTML = ""
 
     fetch(`../../app/api/comments.php?post=${postId}`)
@@ -67,11 +64,10 @@ const createComments = (postId, commentElement) => {
 
             })
         } else {
-            commentDiv.innerHTML += `
+            commentElement.innerHTML += `
             <p class="comment-content">This post does not have any comments!</p>
             `
         }
-
     });
 }
 
@@ -134,11 +130,14 @@ const addEvents = () => {
     commentButtons.forEach(commentButton => {
         commentButton.addEventListener('click', (e)=>{
             if(e.target.classList.contains('comment-button')){
-                postId = e.target.parentNode.dataset.id;
-                container = e.target.parentNode.querySelector('.comment-container');
+                postId = e.target.dataset.id;
+                container = e.target.parentNode.parentNode.querySelector('.comment-container');
+                commentField = e.target.parentNode.parentNode.parentNode.querySelector('.comment-field')
+
+                commentField.classList.toggle('hide')
+
                 e.target.parentNode.querySelector('.hide-comment-button').classList.toggle('hidden')
                 e.target.classList.toggle('hidden')
-                console.log(container)
 
                 createComments(postId, container)
 
@@ -147,7 +146,6 @@ const addEvents = () => {
     })
 
     newCommentButtons.forEach(button => {
-        console.log(button)
         button.addEventListener('click', (e) => {
             commentContent = e.target.parentNode.querySelector('.comment-input').value;
             postId = e.target.dataset.id;
@@ -162,13 +160,17 @@ const addEvents = () => {
     })
 
     hideCommentButtons.forEach(button => {
-        console.log(button)
         button.addEventListener('click', (e) => {
-            e.target.classList.toggle('hidden')
-            e.target.parentNode.querySelector('.comment-button').classList.toggle('hidden')
-            e.target.parentNode.querySelector('.comment-container').innerHTML = ""
+            if(e.target.classList.contains('hide-comment-button')){
+                commentField = e.target.parentNode.parentNode.parentNode.querySelector('.comment-field')
 
+                commentField.classList.toggle('hide')
 
+                e.target.classList.toggle('hidden')
+                e.target.parentNode.querySelector('.comment-button').classList.toggle('hidden')
+                e.target.parentNode.parentNode.querySelector('.comment-container').innerHTML = ""
+
+            }
         })
     })
 }
@@ -235,18 +237,18 @@ const createPosts = (postData) => {
             `
         }
             postMarkup += `
+                        <svg data-id="${post.id}" class="heart-icon comment-button right-side" fill="black" xmlns="http://www.w3.org/2000/svg" height="682pt" viewBox="-21 -47 682.66669 682" width="682pt"><path d="m552.011719-1.332031h-464.023438c-48.515625 0-87.988281 39.464843-87.988281 87.988281v283.972656c0 48.414063 39.300781 87.816406 87.675781 87.988282v128.863281l185.191407-128.863281h279.144531c48.515625 0 87.988281-39.472657 87.988281-87.988282v-283.972656c0-48.523438-39.472656-87.988281-87.988281-87.988281zm50.488281 371.960937c0 27.835938-22.648438 50.488282-50.488281 50.488282h-290.910157l-135.925781 94.585937v-94.585937h-37.1875c-27.839843 0-50.488281-22.652344-50.488281-50.488282v-283.972656c0-27.84375 22.648438-50.488281 50.488281-50.488281h464.023438c27.839843 0 50.488281 22.644531 50.488281 50.488281zm0 0"/><path d="m171.292969 131.171875h297.414062v37.5h-297.414062zm0 0"/><path d="m171.292969 211.171875h297.414062v37.5h-297.414062zm0 0"/><path d="m171.292969 291.171875h297.414062v37.5h-297.414062zm0 0"/></svg>
+                        <svg data-id="${post.id}" class="heart-icon hide-comment-button hidden right-side" fill="#FD6A02" xmlns="http://www.w3.org/2000/svg" height="682pt" viewBox="-21 -47 682.66669 682" width="682pt"><path d="m552.011719-1.332031h-464.023438c-48.515625 0-87.988281 39.464843-87.988281 87.988281v283.972656c0 48.414063 39.300781 87.816406 87.675781 87.988282v128.863281l185.191407-128.863281h279.144531c48.515625 0 87.988281-39.472657 87.988281-87.988282v-283.972656c0-48.523438-39.472656-87.988281-87.988281-87.988281zm50.488281 371.960937c0 27.835938-22.648438 50.488282-50.488281 50.488282h-290.910157l-135.925781 94.585937v-94.585937h-37.1875c-27.839843 0-50.488281-22.652344-50.488281-50.488282v-283.972656c0-27.84375 22.648438-50.488281 50.488281-50.488281h464.023438c27.839843 0 50.488281 22.644531 50.488281 50.488281zm0 0"/><path d="m171.292969 131.171875h297.414062v37.5h-297.414062zm0 0"/><path d="m171.292969 211.171875h297.414062v37.5h-297.414062zm0 0"/><path d="m171.292969 291.171875h297.414062v37.5h-297.414062zm0 0"/></svg>
                         </div>
-                        <p class="comment-button">View Comments</p>
-                        <p class="hide-comment-button hidden">Hide Comments</p>
 
                         <div class="comment-container">
                         </div>
                     </div>
+                    <div class="comment-field hide">
+                        <input placeholder="Enter your comment here.." type="text" class="comment-input" data-id="${post.id}">
+                        <button class="submit-comment" data-id="${post.id}">Submit</button>
+                    </div>
                 </div><!-- /post -->
-                <div class="comment-field">
-                    <input placeholder="Enter your comment here.." type="text" class="comment-input" data-id="${post.id}">
-                    <button class="submit-comment" data-id="${post.id}">+</button>
-                </div>
               </div><!-- /post-container -->
             `
 
@@ -291,9 +293,7 @@ const inputs = document.querySelectorAll('textarea');
 const bottomNav = document.querySelector('.bottom-bar')
 
 inputs.forEach(input => {
-    console.log(input)
     input.addEventListener('focus', ()=>{
-        console.log("WHA!!")
         bottomNav.classList.toggle('hide');
     })
 
