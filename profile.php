@@ -27,6 +27,17 @@
             <input class="form-control" type="file" name="profile-picture">
         </div><!-- /form-group -->
 
+
+        <div class="form-group">
+            <label for="banner-picture">Update Profile Banner</label>
+            <input class="form-control" type="file" name="banner-picture">
+        </div><!-- /form-group -->
+
+        <div class="form-group">
+            <label for="username">Username</label>
+            <input class="form-control" type="text" name="username" placeholder="Username">
+        </div><!-- /form-group -->
+
         <div class="form-group">
             <label for="newPassword">New Password</label>
             <input class="form-control" type="password" name="newPassword" placeholder="New Password">
