@@ -18,7 +18,7 @@ if(!isset($_GET['id'])){
     if(!$postUserId){
         $_SESSION['messages'][] = "The comment you tried to delete does not exist.";
         redirect("/");
-    } elseif($_SESSION['user']['id'] !== $postUserId['user_id']){
+    } elseif(strval($_SESSION['user']['id']) !== $postUserId['user_id']){
         $_SESSION['messages'][] = "You do not have authorization to delete that comment.";
         redirect("/");
     } else {
