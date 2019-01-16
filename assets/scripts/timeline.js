@@ -8,7 +8,11 @@ function Comparator(a, b) {
 
 const createTimeline = (timelineData) => {
     console.log(timelineData)
-    postContainer.innerHTML += createPosts(timelineData);
+    if(timelineData !== null){
+        postContainer.innerHTML += createPosts(timelineData);
+    } else {
+        postContainer.textContent = "Looks like you haven't posted anything, try doing that!"
+    }
 }
 
 
