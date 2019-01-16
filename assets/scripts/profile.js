@@ -1,17 +1,16 @@
 const profileContainer = document.querySelector('.profile-container');
 
-function fetchProfile(userId) {
-  fetch('../../app/api/profile.php?user='+userId)
+function fetchProfile(username) {
+  fetch('../../app/api/profile.php?user='+username)
   .then(function(response) {
     return response.json();
   })
   .then(function(myJson) {
     let userData = myJson
     let userPosts = userData.posts;
-    console.log(userData);
-    console.log(userPosts);
+
     if(userData.error){
-        profileContainer.innerHTML += 'User "'+username+'" does not exist!';
+        profileContainer.innerHTML += '<p class="warning-message">User "'+username+'" could not be found.</p>';
     } else {
         profileContainer.innerHTML += createProfile(userData);
         profileContainer.innerHTML += createPosts(userPosts);
@@ -26,7 +25,7 @@ if(getUrlParameter('u') !== ""){
 }
 
 const createProfile = (userData) => {
-    console.log(userData.banner_image_path)
+    
     let profilePage = `
     <div class="profile">
         <div class="profile-info">
