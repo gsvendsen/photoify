@@ -16,17 +16,33 @@ if(!isset($_GET['id'])){
     $postUserId = $statement->fetch(PDO::FETCH_ASSOC);
 
     if(!$postUserId){
-        $_SESSION['messages'][] = "The comment you tried to delete does not exist.";
-        redirect("/");
-    } elseif(strval($_SESSION['user']['id']) !== $postUserId['user_id']){
-        $_SESSION['messages'][] = "You do not have authorization to delete that comment.";
-        redirect("/");
+        $user['error'] = "The comment you tried to delete does not exist.";
+        $jsonData = json_encode($user);
+        header('Content-Type: application/json');
+        echo $jsonData;
     } else {
-        $statement = $pdo->prepare('DELETE FROM comments WHERE id = :id');
-        $statement->bindParam(':id', $deleteId, PDO::PARAM_INT);
-        $statement->execute();
 
-        $_SESSION['messages'][] = "Comment was deleted";
-        redirect("/");
+        if(strval($_SESSION['user']['id']) !== $postUserId['user_id']){
+            $user['error'] = "You do not have authorization to delete that comment.";
+            $jsonData = json_encode($user);
+            header('Content-Type: application/json');
+            echo $jsonData;
+        } else {
+
+            // Deletes comment
+            $statement = $pdo->prepare('DELETE FROM comments WHERE id = :id');
+            $statement->bindParam(':id', $deleteId, PDO::PARAM_INT);
+            $statement->execute();
+
+            $response['success'] = true;
+
+            $jsonData = json_encode($response);
+
+            header('Content-Type: application/json');
+
+            echo $jsonData;
+        }
+
     }
+
 }
