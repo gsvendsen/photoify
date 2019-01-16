@@ -11,9 +11,18 @@ if(isset($_POST['email'], $_POST['password'], $_POST['name'], $_POST['username']
   $name = filter_var(trim($_POST['name']), FILTER_SANITIZE_STRING);
   $passwordHash = password_hash(filter_var(trim($_POST['password']), FILTER_SANITIZE_STRING), PASSWORD_BCRYPT);
   $imagePath = "/assets/images/phoimg_default.png";
+  $coverImagePath = "/assets/images/cover_default.jpg";
+
+  $charLimit = 100;
+
+  // User input validation
+  if(strlen($username) > $charLimit || strlen($name) > $charLimit){
+      $_SESSION['error']['message'] = "Username or Name contains too many characters!";
+      redirect("/?q=register");
+  }
 
   if(strlen($_POST['password']) < 8){
-      $_SESSION['error']['message'] = "Password is too short (min 8 characterss)";
+      $_SESSION['error']['message'] = "Password is too short (min 8 characters)";
       redirect("/?q=register");
   }
 
@@ -21,7 +30,8 @@ if(isset($_POST['email'], $_POST['password'], $_POST['name'], $_POST['username']
       $_SESSION['error']['message'] = "Username can't contain spaces!";
       redirect("/?q=register");
   }
-  // Checks if user with email already exists
+
+  // Checks if user with same email or username already exists
   $selectStatement = $pdo->prepare('SELECT * FROM users WHERE email = :email OR username = :username');
 
   $selectStatement->bindParam(':email', $email, PDO::PARAM_STR);
@@ -31,7 +41,9 @@ if(isset($_POST['email'], $_POST['password'], $_POST['name'], $_POST['username']
 
   $user = $selectStatement->fetch(PDO::FETCH_ASSOC);
 
+  // If user with same email or username does not exist
   if(!$user){
+
     // Insert user data into user table in database
     $statement = $pdo->prepare('INSERT INTO users (name, email, password, image_path, banner_image_path, username) VALUES (:name, :email, :password, :image_path, :banner_image_path, :username)');
 
@@ -39,7 +51,7 @@ if(isset($_POST['email'], $_POST['password'], $_POST['name'], $_POST['username']
     $statement->bindParam(':email', $email, PDO::PARAM_STR);
     $statement->bindParam(':password', $passwordHash, PDO::PARAM_STR);
     $statement->bindParam(':image_path', $imagePath, PDO::PARAM_STR);
-    $statement->bindParam(':banner_image_path', $imagePath, PDO::PARAM_STR);
+    $statement->bindParam(':banner_image_path', $coverImagePath, PDO::PARAM_STR);
     $statement->bindParam(':username', $username, PDO::PARAM_STR);
 
     $statement->execute();
@@ -63,18 +75,24 @@ if(isset($_POST['email'], $_POST['password'], $_POST['name'], $_POST['username']
 
     ];
 
+    // Creates a user data folder with corresponding id
     $dir = __DIR__."/../data/{$user['id']}";
     mkdir($dir, 0777, true);
+    // Users posts folder for post images
     mkdir($dir."/posts", 0777, true);
+    // Users profile images as profile picture and banner picture
     mkdir($dir."/profile", 0777, true);
 
     $_SESSION['messages'][] = "Created new account successfully!";
 
   } else {
+
     $_SESSION['error']['message'] = "User with that email or username already exists!";
 
     redirect("/?q=register");
+
   }
+  
 }
 
 redirect("/");
