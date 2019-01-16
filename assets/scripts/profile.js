@@ -1,5 +1,6 @@
 const profileContainer = document.querySelector('.profile-container');
 
+// Fetches profile from api and creates page using createProfile() and createPosts()
 function fetchProfile(username) {
   fetch('../../app/api/profile.php?user='+username)
   .then(function(response) {
@@ -20,12 +21,14 @@ function fetchProfile(username) {
   });
 }
 
+// Fetches profile if paramter u exists
 if(getUrlParameter('u') !== ""){
     fetchProfile(getUrlParameter('u'));
 }
 
+// Creates profile header using userData
 const createProfile = (userData) => {
-    
+
     let profilePage = `
     <div class="profile">
         <div class="profile-info">
@@ -34,7 +37,7 @@ const createProfile = (userData) => {
         `
 
     if(!userData.self){
-
+        // Shows follow options if user is not self
         if(userData.follows == "false"){
             profilePage += `
             <a class="right-side" href="app/follows/update.php?follow=${userData.id}&location=${userData.username}">Follow</a>
@@ -44,13 +47,15 @@ const createProfile = (userData) => {
             <a class="right-side" href="app/follows/update.php?follow=${userData.id}&location=${userData.username}&unfollow=true">Unfollow</a>
             `
         }
-    } else {
 
+    } else {
+        // Edit profile option for your own profile
         profilePage += `
         <a class="right-side" href="../profile.php">Edit Profile</a>
     `
     }
 
+    // Banner image
     profilePage += `
         <img class="profile-banner" src="${userData.banner_image_path}">
         </div>

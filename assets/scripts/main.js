@@ -1,11 +1,12 @@
-function getUrlParameter(name) {
+// Function which gets url parameter from name
+const getUrlParameter = (name) => {
     name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
-    var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
-    var results = regex.exec(location.search);
+    let regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+    let results = regex.exec(location.search);
     return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
 };
-// href="/app/likes/update.php?post=${post.id}&like=-1&location=${userData.username}"
 
+// Function which updates the looks of the like and dislike buttons
 const updateLike = (post, isLiked, isDisliked, likeCall, likeCounter) => {
 
     if(likeCall == "dislike"){
@@ -27,6 +28,7 @@ const updateLike = (post, isLiked, isDisliked, likeCall, likeCounter) => {
             post.dataset.liked = false;
             post.dataset.disliked = false;
 
+        // If dislike is called on a neutral post
         } else if (isDisliked == "false"){
 
             post.querySelector('.dislike-button').childNodes[1].childNodes[1].setAttribute("fill", "red")
@@ -54,6 +56,7 @@ const updateLike = (post, isLiked, isDisliked, likeCall, likeCounter) => {
             post.dataset.liked = true;
             post.dataset.disliked = false;
 
+        // If like is called on a neutral post
         } else if (isLiked == "false"){
 
         post.querySelector('.like-button').childNodes[1].childNodes[1].setAttribute("fill", "red")
@@ -64,6 +67,7 @@ const updateLike = (post, isLiked, isDisliked, likeCall, likeCounter) => {
     }
 }
 
+// Function which fetches comments from postId and puts them in commentElement
 const createComments = (postId, commentElement) => {
     commentElement.innerHTML = ""
 
@@ -75,6 +79,7 @@ const createComments = (postId, commentElement) => {
 
         if(commentData.error == null){
 
+            // Adds all comments from commentData into comment container
             commentData.forEach((comment) => {
 
                 let commentDiv = `
@@ -84,7 +89,7 @@ const createComments = (postId, commentElement) => {
                     <p class="comment-content">${comment.content}</p>
                 `;
 
-
+                // Shows delete option if user has authorization
                 if(comment.self == true){
                 commentDiv += `
                     <p class="comment-delete" data-id="${comment.id}" href="#">Delete</p>
@@ -107,6 +112,7 @@ const createComments = (postId, commentElement) => {
 
         const deleteCommentButtons = document.querySelectorAll('.comment-delete')
 
+        // Click event for deleting comments
         deleteCommentButtons.forEach((button) => {
             button.addEventListener('click', (e) => {
                 const commentId = e.target.dataset.id;
@@ -131,6 +137,7 @@ const createComments = (postId, commentElement) => {
     });
 }
 
+// Fetch function which inserts new comment into database
 const postNewComment = (commentContent, postId) => {
     fetch(`../../app/comments/create.php?post=${postId}&content=${commentContent}`)
     .then(function(response) {
@@ -140,6 +147,7 @@ const postNewComment = (commentContent, postId) => {
     });
 }
 
+// All eventListeners which are created after posts are created
 const addEvents = () => {
     const likeButtons = document.querySelectorAll('.like-button')
     const dislikeButtons = document.querySelectorAll('.dislike-button')
@@ -148,6 +156,7 @@ const addEvents = () => {
     const hideCommentButtons = document.querySelectorAll('.hide-comment-button')
     const deleteButtons = document.querySelectorAll('.delete-button')
 
+    // Click event for deleting a post
     deleteButtons.forEach(button => {
         button.addEventListener('click', (e)=> {
                 if(e.target.classList.contains('delete-button')){
@@ -157,7 +166,7 @@ const addEvents = () => {
         })
     })
 
-
+    // Click event for liking or removing like
     likeButtons.forEach(likebutton => {
         likebutton.addEventListener('click', (e)=>{
             if(e.target.classList.contains('like-button')){
@@ -190,6 +199,7 @@ const addEvents = () => {
         })
     })
 
+    // Click event for disliking or removing dislike
     dislikeButtons.forEach(dislikebutton => {
         dislikebutton.addEventListener('click', (e)=>{
             if(e.target.classList.contains('dislike-button')){
@@ -221,6 +231,7 @@ const addEvents = () => {
         })
     })
 
+    // Click event for showing comment section
     commentButtons.forEach(commentButton => {
         commentButton.addEventListener('click', (e)=>{
             if(e.target.classList.contains('comment-button')){
@@ -239,6 +250,7 @@ const addEvents = () => {
         })
     })
 
+    // Click event for submitting a new comment
     newCommentButtons.forEach(button => {
         button.addEventListener('click', (e) => {
             commentContent = e.target.parentNode.querySelector('.comment-input').value;
@@ -258,6 +270,7 @@ const addEvents = () => {
         })
     })
 
+    // Click event for hiding comment section
     hideCommentButtons.forEach(button => {
         button.addEventListener('click', (e) => {
             if(e.target.classList.contains('hide-comment-button')){
@@ -274,11 +287,12 @@ const addEvents = () => {
     })
 }
 
-
+// Function that prompts user with choice on post or account deletion
 const createDeleteMessage = (id, isAccountDeletion) => {
 
     let deleteMarkup = ``
 
+    // If the delete message is for a post
     if(!isAccountDeletion){
         deleteMarkup = `
             <div class="delete-container">
@@ -292,6 +306,8 @@ const createDeleteMessage = (id, isAccountDeletion) => {
             </div>
         `
     } else {
+
+        // If the delete message is for an account
         deleteMarkup = `
             <div class="delete-container">
                 <div class="delete-box"
@@ -305,13 +321,11 @@ const createDeleteMessage = (id, isAccountDeletion) => {
         `
     }
 
-
     document.body.innerHTML += deleteMarkup
-
     document.body.classList.toggle('no-scroll')
-
     const denyButton = document.querySelector('.delete-deny');
 
+    // If user cancels deletion box
     denyButton.addEventListener('click', (e) => {
         let deleteContainer = e.target.parentNode.parentNode.parentNode;
         document.body.removeChild(deleteContainer);
@@ -327,9 +341,11 @@ const createDeleteMessage = (id, isAccountDeletion) => {
 const createPosts = (postData) => {
     let postMarkup = "";
 
+    // Loops over each post in postData and adds to postMarkup
     postData.forEach((post) => {
         let userData = post.user
 
+        // Fill variables for like and dislike icons
         let heartFill = "grey";
         let thumbsFill = "grey";
 
@@ -341,6 +357,7 @@ const createPosts = (postData) => {
             thumbsFill = "red";
         }
 
+        // Template literal for post markup using postData containing userData
         postMarkup += `
             <div class="post-container">
               <div class="post">
@@ -366,6 +383,7 @@ const createPosts = (postData) => {
                     </div>
                 `
 
+        // If user has authorization to edit and delete post
         if(post.auth === "true"){
             postMarkup += `
             <a href="/../edit.php?post=${post.id}&location=${userData.username}">
@@ -382,6 +400,7 @@ const createPosts = (postData) => {
             </div>
             `
         }
+            // Show/Hide comment buttons and comment field
             postMarkup += `
                         <div data-id="${post.id}" class="comment-button right-side">
                             <svg class="icon" fill="black" xmlns="http://www.w3.org/2000/svg" height="682pt" viewBox="-21 -47 682.66669 682" width="682pt"><path d="m552.011719-1.332031h-464.023438c-48.515625 0-87.988281 39.464843-87.988281 87.988281v283.972656c0 48.414063 39.300781 87.816406 87.675781 87.988282v128.863281l185.191407-128.863281h279.144531c48.515625 0 87.988281-39.472657 87.988281-87.988282v-283.972656c0-48.523438-39.472656-87.988281-87.988281-87.988281zm50.488281 371.960937c0 27.835938-22.648438 50.488282-50.488281 50.488282h-290.910157l-135.925781 94.585937v-94.585937h-37.1875c-27.839843 0-50.488281-22.652344-50.488281-50.488282v-283.972656c0-27.84375 22.648438-50.488281 50.488281-50.488281h464.023438c27.839843 0 50.488281 22.644531 50.488281 50.488281zm0 0"/><path d="m171.292969 131.171875h297.414062v37.5h-297.414062zm0 0"/><path d="m171.292969 211.171875h297.414062v37.5h-297.414062zm0 0"/><path d="m171.292969 291.171875h297.414062v37.5h-297.414062zm0 0"/></svg>
@@ -427,8 +446,8 @@ if(hamButton !== null){
     });
 }
 
+// Click event for deleting your account
 const accountDeletionEvent = () => {
-
     const deleteAccountButton = document.querySelector('.delete-account-button')
     deleteAccountButton.addEventListener('click', (e) => {
         const accountId = e.target.dataset.id;
@@ -439,9 +458,9 @@ const accountDeletionEvent = () => {
 const homeButton = document.querySelector('.home-icon');
 const postButton = document.querySelector('.post-icon');
 const profileButton = document.querySelector('.profile-icon');
-
 const pathname = window.location.pathname;
 
+// Update events and nav icons depending on current path
 if(pathname == "/post.php" && postButton !== null){
     postButton.classList.toggle('active');
 } else if (pathname == "/" && getUrlParameter('u') == "" && homeButton !== null) {
@@ -457,6 +476,7 @@ if(pathname == "/post.php" && postButton !== null){
 const inputs = document.querySelectorAll('textarea');
 const bottomNav = document.querySelector('.bottom-bar')
 
+// Hides bottom nav bar on input focus to not collide with mobile keyboards
 inputs.forEach(input => {
     input.addEventListener('focus', ()=>{
         bottomNav.classList.toggle('hide');
@@ -467,13 +487,14 @@ inputs.forEach(input => {
     })
 })
 
-var openFile = function(event) {
-    var input = event.target;
+// Shows the file selected to upload directly on the page
+let openFile = function(event) {
+    let input = event.target;
 
-    var reader = new FileReader();
+    let reader = new FileReader();
     reader.onload = function(){
-      var dataURL = reader.result;
-      var output = document.getElementById('output');
+      let dataURL = reader.result;
+      let output = document.getElementById('output');
       output.src = dataURL;
     };
     reader.readAsDataURL(input.files[0]);

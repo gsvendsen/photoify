@@ -1,11 +1,6 @@
 const postContainer = document.querySelector('.post-wrapper')
 
-function Comparator(a, b) {
-  if (a[1] < b[1]) return -1;
-  if (a[1] > b[1]) return 1;
-  return 0;
-}
-
+// Creates posts from timeLine data
 const createTimeline = (timelineData) => {
     console.log(timelineData)
     if(timelineData !== null){
@@ -16,7 +11,7 @@ const createTimeline = (timelineData) => {
 }
 
 
-
+// Fetches timeLine data from api using userId
 function fetchTimeline(userId) {
   fetch('../../app/api/timeline.php?user='+userId)
   .then(function(response) {
@@ -28,6 +23,7 @@ function fetchTimeline(userId) {
   });
 }
 
+// Gets userId from current logged in session
 function fetchUserId() {
   fetch('../../app/api/user.php')
   .then(function(response) {
@@ -38,6 +34,7 @@ function fetchUserId() {
   });
 }
 
+// Fetches if url parameter is empty and is on home page
 if(getUrlParameter('u') == "" && postContainer !== null){
     fetchUserId()
 }
