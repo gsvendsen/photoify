@@ -6,7 +6,9 @@ const createTimeline = (timelineData) => {
     if(timelineData !== null){
         postContainer.innerHTML += createPosts(timelineData);
     } else {
-        postContainer.textContent = "Looks like you haven't posted anything, try doing that!"
+        postContainer.innerHTML += `
+            <p class="message">Nothing posted yet! Try doing that <a href="/post.php">here</a></p>
+        `
     }
 }
 
