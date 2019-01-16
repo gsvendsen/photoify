@@ -455,9 +455,9 @@ const accountDeletionEvent = () => {
     })
 }
 
-const homeButton = document.querySelector('.home-icon');
-const postButton = document.querySelector('.post-icon');
-const profileButton = document.querySelector('.profile-icon');
+const homeButton = document.querySelector('.home-bar-icon');
+const postButton = document.querySelector('.post-bar-icon');
+const profileButton = document.querySelector('.profile-bar-icon');
 const pathname = window.location.pathname;
 
 // Update events and nav icons depending on current path
