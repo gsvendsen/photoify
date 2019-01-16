@@ -1,12 +1,7 @@
 
 <div class="form-wrapper">
-    <?php if(isset($_SESSION['error'])): ?>
-      <div class="alert alert-danger" role="alert">
-        <?= $_SESSION['error']['message'] ?>
-      </div>
-    <?php endif;?>
 
-    <h2>Log In</h2>
+    <img class="start-logo" src="assets/images/photoify.png">
 
     <form action="app/users/login.php" method="post">
         <div class="form-section">
@@ -22,6 +17,11 @@
         </div><!-- /form-group -->
 
         <div class="form-center">
+            <?php if(isset($_SESSION['error'])): ?>
+              <p class="warning-message">
+                <?= $_SESSION['error']['message'] ?>
+             </p>
+            <?php endif;?>
             <button type="submit">Sign In</button>
             <p>Don't have an account? <a href="?q=register">Register</a>
         </div>
