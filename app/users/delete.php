@@ -3,12 +3,6 @@
 declare(strict_types=1);
 require __DIR__.'/../autoload.php';
 
-function rrmdir($dir) {
-  foreach(glob($dir . '/*') as $file) {
-    if(is_dir($file)) rrmdir($file); else unlink($file);
-  } rmdir($dir);
-}
-
 if(!isset($_SESSION['user'])){
     redirect('/');
 } else {
@@ -23,6 +17,7 @@ if(!isset($_SESSION['user'])){
     $userPosts = $statement->fetchAll(PDO::FETCH_ASSOC);
 
     if($userPosts !== false){
+
         foreach($userPosts as $post){
 
             // Removes likes on users posts table
@@ -38,6 +33,7 @@ if(!isset($_SESSION['user'])){
             $statement->bindParam(":id", $post['id'], PDO::PARAM_STR);
 
             $statement->execute();
+
         }
     }
 
