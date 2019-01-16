@@ -7,7 +7,9 @@ require __DIR__.'/../autoload.php';
 // In this file user data is updated
 
 if(!isset($_SESSION['user'])){
+
     redirect('/profile.php');
+
 } else {
 
     $id = $_SESSION['user']['id'];
@@ -24,12 +26,18 @@ if(!isset($_SESSION['user'])){
 
     // If password update was posted
     if(isset($_POST['newPassword'], $_POST['password']) && $_POST['password'] !== ""){
+
         if($_POST['newPassword'] === $_POST['password'] && $_POST['password'] === ""){
 
             $_SESSION['error']['message'] = "You cannot use the same password again!";
             redirect("/profile.php");
 
         } elseif(password_verify($_POST['password'], $user['password'])) {
+
+            if(strlen($_POST['password']) < 8){
+                $_SESSION['error']['message'] = "Password is too short (min 8 characters)";
+                redirect("/profile.php");
+            }
 
             $newPassword = password_hash(filter_var(trim($_POST['newPassword']), FILTER_SANITIZE_STRING), PASSWORD_BCRYPT);
 
@@ -42,11 +50,11 @@ if(!isset($_SESSION['user'])){
 
             $_SESSION['messages'][] = "Your password has been updated!";
 
-        }
+        } else {
 
-        else {
             $_SESSION['error']['message'] = "Wrong password!";
             redirect("/profile.php");
+
         }
     }
 
@@ -67,6 +75,7 @@ if(!isset($_SESSION['user'])){
 
     // If email update was posted
     if(isset($_POST['email']) && $_POST['email'] !== $_SESSION['user']['email']){
+
         $name = filter_var(trim($_POST['email']), FILTER_SANITIZE_STRING);
 
         $updateStatement = $pdo->prepare("UPDATE users SET email = :email WHERE id = :id");
@@ -82,16 +91,25 @@ if(!isset($_SESSION['user'])){
 
     // Updates profile picture if file was uploaded
     if(isset($_FILES['profile-picture'])){
+
         $fileTypes = ['image/png', 'image/jpg', 'image/jpeg'];
 
         if(in_array($_FILES['profile-picture']['type'], $fileTypes)){
 
             $userPath = __DIR__."/../data/{$_SESSION['user']['id']}/profile";
 
-            $info = explode('.', strtolower( $_FILES['profile-picture']['name']) );
-            move_uploaded_file( $_FILES['profile-picture']['tmp_name'], "{$userPath}/phoimg_dp.{$info[1]}");
+            // Removes previous profile image file if not the default one
+            if($_SESSION['user']['img_path'] !== "/assets/images/phoimg_default.png"){
+                unlink("../..{$_SESSION['user']['img_path']}");
+            }
 
-            $dbPath = "/app/data/{$_SESSION['user']['id']}/profile/phoimg_dp.{$info[1]}";
+            $uniqueId = uniqid();
+
+
+            $info = explode('.', strtolower( $_FILES['profile-picture']['name']) );
+            move_uploaded_file( $_FILES['profile-picture']['tmp_name'], "{$userPath}/phoimg_dp_{$uniqueId}.{$info[1]}");
+
+            $dbPath = "/app/data/{$_SESSION['user']['id']}/profile/phoimg_dp_{$uniqueId}.{$info[1]}";
 
             $statement = $pdo->prepare('UPDATE users SET image_path = :image_path WHERE id = :id');
 
@@ -107,25 +125,33 @@ if(!isset($_SESSION['user'])){
 
     // Updates profile banner if file was uploaded
     if(isset($_FILES['banner-picture'])){
+
         $fileTypes = ['image/png', 'image/jpg', 'image/jpeg'];
 
         if(in_array($_FILES['banner-picture']['type'], $fileTypes)){
 
-        $userPath = __DIR__."/../data/{$_SESSION['user']['id']}/profile";
+            $userPath = __DIR__."/../data/{$_SESSION['user']['id']}/profile";
 
-        $info = explode('.', strtolower( $_FILES['banner-picture']['name']) );
-        move_uploaded_file( $_FILES['banner-picture']['tmp_name'], "{$userPath}/phoimg_banner.{$info[1]}");
+            // Removes previous banner image file if not the default one
+            if($_SESSION['user']['img_path'] !== "/assets/images/cover_default.jpg"){
+                unlink("../..{$_SESSION['user']['banner_path']}");
+            }
 
-        $dbPath = "/app/data/{$_SESSION['user']['id']}/profile/phoimg_banner.{$info[1]}";
+            $uniqueId = uniqid();
 
-        $statement = $pdo->prepare('UPDATE users SET banner_image_path = :image_path WHERE id = :id');
+            $info = explode('.', strtolower( $_FILES['banner-picture']['name']) );
+            move_uploaded_file( $_FILES['banner-picture']['tmp_name'], "{$userPath}/phoimg_banner_{$uniqueId}.{$info[1]}");
 
-        $statement->bindParam(':image_path', $dbPath, PDO::PARAM_STR);
-        $statement->bindParam(':id', $_SESSION['user']['id'], PDO::PARAM_STR);
+            $dbPath = "/app/data/{$_SESSION['user']['id']}/profile/phoimg_banner_{$uniqueId}.{$info[1]}";
 
-        $statement->execute();
+            $statement = $pdo->prepare('UPDATE users SET banner_image_path = :image_path WHERE id = :id');
 
-        $_SESSION['messages'][] = "Your banner picture has been updated!";
+            $statement->bindParam(':image_path', $dbPath, PDO::PARAM_STR);
+            $statement->bindParam(':id', $_SESSION['user']['id'], PDO::PARAM_STR);
+
+            $statement->execute();
+
+            $_SESSION['messages'][] = "Your banner picture has been updated!";
 
 
         }
@@ -149,7 +175,6 @@ if(!isset($_SESSION['user'])){
             $_SESSION['messages'][] = "Your username has been updated!";
 
         }
-
     }
 }
 
@@ -172,4 +197,5 @@ $_SESSION['user'] = [
 
 ];
 
-redirect("/");
+// Redirects back to users profile page
+redirect("/?u={$user['username']}");
