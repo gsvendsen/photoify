@@ -30,12 +30,12 @@
 
 <!-- Navmenu for mobile -->
 	<div class="menu">
-		<ul>
-            <a class="dropdown-item" href="/">Home</a>
-            <a class="dropdown-item" href="/post.php">New Post</a>
-            <a class="dropdown-item" href="/?u=<?= $_SESSION['user']['username'] ?>">My Profile</a>
-            <a class="dropdown-item" href="/profile.php">Update Profile</a>
-            <a class="dropdown-item" href="/app/users/logout.php">Log Out</a>
+		<ul class="menu-list">
+            <a href="/">Home</a>
+            <a href="/post.php">New Post</a>
+            <a href="/?u=<?= $_SESSION['user']['username'] ?>">My Profile</a>
+            <a href="/profile.php">Update Profile</a>
+            <a href="/app/users/logout.php">Log Out</a>
 		</ul><!-- /menu-list -->
     </div>
 <?php endif; ?>
