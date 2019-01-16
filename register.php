@@ -1,6 +1,7 @@
 
 <div class="form-wrapper">
-    <h2>New Account</h2>
+
+    <img class="start-logo" src="assets/images/photoify.png">
 
     <form action="app/users/create.php" method="post">
         <div class="form-section">
