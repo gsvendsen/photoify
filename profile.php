@@ -2,8 +2,8 @@
 
 
 <?php if(!isset($_SESSION['user'])){ redirect("/"); } else { $user = $_SESSION['user'];}?>
-<div class="new-post-container">
-    <h1>Update Information</h1>
+<div class="profile-update-container">
+    <h4>Update Information</h4>
 
     <?php if(isset($_SESSION['error'])): ?>
       <div class="alert alert-danger" role="alert">
@@ -25,7 +25,7 @@
 
         <div class="form-section">
             <label for="username">Username</label>
-            <input type="text" name="username" placeholder="Username">
+            <input type="text" value="<?= $user['username'] ?>" name="username" placeholder="Username">
         </div><!-- / form-section -->
 
         <div class="form-section">
