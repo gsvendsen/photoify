@@ -1,3 +1,3 @@
-    <div class="post-wrapper">
+<div class="post-wrapper">
 
-    </div><!-- /post-container -->
+</div>

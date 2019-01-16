@@ -1,4 +1,3 @@
-
 <div class="form-wrapper">
 
     <img class="start-logo" src="assets/images/photoify.png">
