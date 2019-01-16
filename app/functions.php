@@ -16,3 +16,23 @@ if (!function_exists('redirect')) {
         exit;
     }
 }
+
+/**
+ * Removes given directory and all its content.
+ *
+ * @param string $dir
+ *
+ * @return void
+ */
+if(!function_exists('rrmdir')) {
+
+    function rrmdir($dir) {
+
+        foreach(glob($dir . '/*') as $file) {
+
+            if(is_dir($file)) rrmdir($file);
+            else unlink($file);
+
+        } rmdir($dir);
+    }
+}
