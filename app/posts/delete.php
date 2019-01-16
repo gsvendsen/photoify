@@ -30,6 +30,11 @@ if(!isset($_GET['locale'])){
         $statement->bindParam(':id', $deleteId, PDO::PARAM_INT);
         $statement->execute();
 
+        // Removes user post directory and all its content from data Directory
+        $dirPath = __DIR__."/../data/{$_SESSION['user']['id']}/posts/$deleteId";
+
+        rrmdir($dirPath);
+
         $_SESSION['messages'][] = "Post was deleted";
         redirect("/");
     }
