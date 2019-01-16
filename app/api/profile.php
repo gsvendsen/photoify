@@ -68,14 +68,17 @@ if(!isset($_GET['user'])){
 
             if($likeExists){
                 if($likeExists['like'] == 1){
+                    $post['disliked'] = false;
                     $post['liked'] = true;
                 } else {
+                    $post['disliked'] = true;
                     $post['liked'] = false;
                 }
             } else {
                 $post['liked'] = false;
+                $post['disliked'] = false;
             }
-
+            
             $post['likes'] = $likeTotal;
 
             $post['user'] = $user;
