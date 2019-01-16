@@ -12,46 +12,47 @@
     <?php endif;?>
 
     <form action="app/users/update.php" method="post" enctype="multipart/form-data">
-        <div class="form-group">
+        <div class=" form-section">
             <label for="email">Email</label>
-            <input class="form-control" type="email" value="<?= $user['email'] ?>" name="email" placeholder="francis@darjeeling.com">
-        </div><!-- /form-group -->
+            <input type="email" value="<?= $user['email'] ?>" name="email" placeholder="francis@darjeeling.com">
+        </div><!-- / form-section -->
 
-        <div class="form-group">
+        <div class="form-section">
             <label for="name">Name</label>
-            <input class="form-control" type="text" value="<?= $user['name'] ?>" name="name">
-        </div><!-- /form-group -->
-
-        <div class="form-group">
-            <label for="profile-picture">Update Profile Picture</label>
-            <input class="form-control" type="file" name="profile-picture">
-        </div><!-- /form-group -->
+            <input type="text" value="<?= $user['name'] ?>" name="name">
+        </div><!-- / form-section -->
 
 
-        <div class="form-group">
-            <label for="banner-picture">Update Profile Banner</label>
-            <input class="form-control" type="file" name="banner-picture">
-        </div><!-- /form-group -->
-
-        <div class="form-group">
+        <div class="form-section">
             <label for="username">Username</label>
-            <input class="form-control" type="text" name="username" placeholder="Username">
-        </div><!-- /form-group -->
+            <input type="text" name="username" placeholder="Username">
+        </div><!-- / form-section -->
 
-        <div class="form-group">
+        <div class="form-section">
             <label for="newPassword">New Password</label>
-            <input class="form-control" type="password" name="newPassword" placeholder="New Password">
-        </div><!-- /form-group -->
+            <input type="password" name="newPassword" placeholder="New Password">
+        </div><!-- / form-section -->
 
-        <div class="form-group">
+        <div class="form-section">
             <label for="password">Old Password</label>
-            <input class="form-control" type="password" name="password" placeholder="Old Password">
-        </div><!-- /form-group -->
+            <input type="password" name="password" placeholder="Old Password">
+        </div><!-- / form-section -->
 
-        <button type="submit" class="btn btn-primary">Update Information</button>
+        <div class="form-section">
+            <label for="profile-picture">Update Profile Picture</label>
+            <input type="file" name="profile-picture">
+        </div><!-- / form-section -->
+
+
+        <div class="form-section">
+            <label for="banner-picture">Update Profile Banner</label>
+            <input type="file" name="banner-picture">
+        </div><!-- / form-section -->
+
+        <button type="submit">Update Information</button>
     </form>
 
-    <a href="/app/users/delete.php" class="btn btn-primary mt-1 alert-danger" role="button" aria-pressed="true">Delete Account</a>
+    <div class="alert-danger delete-account-button" data-id="<?= $_SESSION['user']['id'] ?>"role="button" aria-pressed="true">Delete Account</div>
 </div>
 <?php if(isset($_SESSION['error'])){ unset($_SESSION['error']) ;}; ?>
 
