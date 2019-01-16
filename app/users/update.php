@@ -133,7 +133,7 @@ if(!isset($_SESSION['user'])){
             $userPath = __DIR__."/../data/{$_SESSION['user']['id']}/profile";
 
             // Removes previous banner image file if not the default one
-            if($_SESSION['user']['img_path'] !== "/assets/images/cover_default.jpg"){
+            if($_SESSION['user']['banner_path'] !== "/assets/images/cover_default.jpg"){
                 unlink("../..{$_SESSION['user']['banner_path']}");
             }
 
