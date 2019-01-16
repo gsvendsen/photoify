@@ -7,6 +7,7 @@ body {
     color:white;
     display: flex;
     justify-content: center;
+    height:100%;
 }
 
 * {
@@ -52,6 +53,11 @@ h2 {
     width:20px;
     margin:0 10px 0 0;
     pointer-events: none;
+}
+
+.bar-icon {
+    height:20px;
+    width:20px;
 }
 
 .bar-icon > path {
@@ -117,17 +123,27 @@ button {
     display:flex;
     justify-content: center;
     padding:50px 0;
-    max-width:550px;
+    max-width:500px;
+    width:100%;
+}
+
+.post-wrapper {
     width:100%;
 }
 
 .wrapper > article {
     background-color:#131C21;
     padding:20px 0 0 0;
+    max-width: 500px;
+    height:100%;
 }
 
 .start-logo {
     width:60%;
+}
+
+.nav-logo {
+    width:80px;
 }
 
 article {
@@ -138,9 +154,8 @@ article {
 }
 
 form {
-
+    text-align: center;
     width:80%;
-
 }
 
 
@@ -190,6 +205,10 @@ form {
 .profile-info {
     display:flex;
     align-items:center;
+    width:100%;
+}
+
+.profile-container {
     width:100%;
 }
 
@@ -280,7 +299,7 @@ form {
 }
 
 .submit-comment {
-    background-color: #FD6A02;
+    background-color: #F9BA32;
     width:40px;
     height:40px;
     border-radius:50%;
@@ -297,14 +316,27 @@ form {
 
 .new-post-container {
     padding:20px 10px;
+    display: flex;
+    height:80vh;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.profile-update-container {
+    padding:20px 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 /* NAVBAR STYLING */
 
 .bar {
  position: relative;
- width: 30px;
- margin:3px;
+ width: 25px;
+ margin:2px;
  height: 2px;
  background: white;
 }
@@ -316,7 +348,7 @@ form {
  height: 100%;
  background: inherit;
  left: 0;
- top: -10px;
+ top: -8px;
  transform-origin: center center;
  transition: transform .25s ease, top .25s ease, bottom .25s ease;
 }
@@ -328,7 +360,7 @@ form {
  height: 100%;
  background: inherit;
  left: 0;
- bottom: -10px;
+ bottom: -8px;
  transform-origin: center center;
  transition: transform .25s ease, top .25s ease, bottom .25s ease;
 }
@@ -428,6 +460,11 @@ form {
   overflow-y: hidden;
 }
 
+.message {
+    text-align: center;
+    margin-bottom:10px;
+}
+
 /* DELETE STYLING */
 
 .delete-container {
@@ -466,4 +503,14 @@ form {
 div.hide {
     opacity:0;
     display:none;
+}
+
+.mobile {
+    display:none;
+}
+
+@media only screen and (max-width: 768px) {
+  .mobile {
+      display:flex;
+  }
 }
