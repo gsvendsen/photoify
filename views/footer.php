@@ -1,5 +1,10 @@
     </div><!-- /container -->
 
+    <script src="/assets/scripts/like.js"></script>
+    <script src="/assets/scripts/delete.js"></script>
+    <script src="/assets/scripts/comments.js"></script>
+    <script src="/assets/scripts/events.js"></script>
+    <script src="/assets/scripts/post.js"></script>
     <script src="/assets/scripts/main.js"></script>
     <script src="/assets/scripts/profile.js"></script>
     <script src="/assets/scripts/timeline.js"></script>
