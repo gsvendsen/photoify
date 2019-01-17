@@ -17,7 +17,12 @@ Photoify is an assignment for the Yrgo WU18 class where I had to create a respon
 
 ### Build Process
 
-The site is made using HTML, CSS, JavaScript and PHP. At first PHP backend was used directly on the front end. I later on made an API which dynamically fetches post content, user information and comment information in JSON format which JavaScript handles. All data is stored in a database file which is communicated to using SQL.
+The site is made using HTML, CSS, JavaScript and PHP. <br>At first PHP backend was used directly on the front end. I later on made an API which dynamically fetches post content, user information and comment information in JSON format which JavaScript handles. All data is stored in a database file which is communicated to using SQL.
+
+<p align="center">
+    <img alt="Photoify Screencap" title="Screencap"
+    src="https://i.imgur.com/iGvNZlr.jpg" width="200">
+</p>
 
 ### Installation
 
