@@ -21,11 +21,11 @@ The site is made using HTML, CSS, JavaScript and PHP. <br>At first PHP backend w
 
 <p align="center">
     <img style="margin:0 25px" alt="Photoify Screencap" title="Screencap"
-    src="https://i.imgur.com/iGvNZlr.jpg" width="33%">
+    src="https://i.imgur.com/iGvNZlr.jpg" width="200">
     <img style="margin:0 25px" alt="Photoify Screencap" title="Screencap"
-    src="https://i.imgur.com/QdxnPdt.jpg" width="33%">
+    src="https://i.imgur.com/QdxnPdt.jpg" width="200">
     <img style="margin:0 25px" alt="Photoify Screencap" title="Screencap"
-    src="https://i.imgur.com/NfvhMJc.png" width="33%">
+    src="https://i.imgur.com/NfvhMJc.png" width="200">
 </p>
 
 ### Installation
