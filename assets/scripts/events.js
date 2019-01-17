@@ -11,7 +11,7 @@ const addEvents = () => {
     deleteButtons.forEach(button => {
         button.addEventListener('click', (e)=> {
                 if(e.target.classList.contains('delete-button')){
-                    postId = e.target.parentNode.parentNode.dataset.id;
+                    const postId = e.target.parentNode.parentNode.dataset.id;
                     createDeleteMessage(postId);
                 }
         })
@@ -21,11 +21,11 @@ const addEvents = () => {
     likeButtons.forEach(likebutton => {
         likebutton.addEventListener('click', (e)=>{
             if(e.target.classList.contains('like-button')){
-                postId = e.target.parentNode.parentNode.dataset.id;
-                postLiked = e.target.parentNode.dataset.liked;
-                postDisliked = e.target.parentNode.dataset.disliked;
+                const postId = e.target.parentNode.parentNode.dataset.id;
+                const postLiked = e.target.parentNode.dataset.liked;
+                const postDisliked = e.target.parentNode.dataset.disliked;
 
-                likeAmount = e.target.parentNode.querySelector('.post-likes')
+                let likeAmount = e.target.parentNode.querySelector('.post-likes')
 
                 updateLike(e.target.parentNode, postLiked, postDisliked, "like", likeAmount);
 
@@ -54,11 +54,11 @@ const addEvents = () => {
     dislikeButtons.forEach(dislikebutton => {
         dislikebutton.addEventListener('click', (e)=>{
             if(e.target.classList.contains('dislike-button')){
-                postId = e.target.parentNode.parentNode.dataset.id;
-                postLiked = e.target.parentNode.dataset.liked;
-                postDisliked = e.target.parentNode.dataset.disliked;
+                const postId = e.target.parentNode.parentNode.dataset.id;
+                const postLiked = e.target.parentNode.dataset.liked;
+                const postDisliked = e.target.parentNode.dataset.disliked;
 
-                likeAmount = e.target.parentNode.querySelector('.post-likes')
+                let likeAmount = e.target.parentNode.querySelector('.post-likes')
                 updateLike(e.target.parentNode, postLiked, postDisliked, "dislike", likeAmount);
 
                 if(postDisliked !== "true"){
@@ -86,9 +86,9 @@ const addEvents = () => {
     commentButtons.forEach(commentButton => {
         commentButton.addEventListener('click', (e)=>{
             if(e.target.classList.contains('comment-button')){
-                postId = e.target.dataset.id;
-                container = e.target.parentNode.parentNode.querySelector('.comment-container');
-                commentField = e.target.parentNode.parentNode.parentNode.querySelector('.comment-field')
+                const postId = e.target.dataset.id;
+                const container = e.target.parentNode.parentNode.querySelector('.comment-container');
+                const commentField = e.target.parentNode.parentNode.parentNode.querySelector('.comment-field')
 
                 commentField.classList.toggle('hide')
 
@@ -104,10 +104,10 @@ const addEvents = () => {
     // Click event for submitting a new comment
     newCommentButtons.forEach(button => {
         button.addEventListener('click', (e) => {
-            commentContent = e.target.parentNode.querySelector('.comment-input').value;
-            postId = e.target.dataset.id;
-            commentContainer = e.target.parentNode.parentNode.querySelector('.comment-container')
-            commentButton = e.target.parentNode.parentNode.querySelector('.comment-button')
+            const commentContent = e.target.parentNode.querySelector('.comment-input').value;
+            const postId = e.target.dataset.id;
+            const commentContainer = e.target.parentNode.parentNode.querySelector('.comment-container')
+            const commentButton = e.target.parentNode.parentNode.querySelector('.comment-button')
             commentButton.classList.add('hidden')
 
             postNewComment(commentContent, postId)
@@ -125,7 +125,7 @@ const addEvents = () => {
     hideCommentButtons.forEach(button => {
         button.addEventListener('click', (e) => {
             if(e.target.classList.contains('hide-comment-button')){
-                commentField = e.target.parentNode.parentNode.parentNode.querySelector('.comment-field')
+                const commentField = e.target.parentNode.parentNode.parentNode.querySelector('.comment-field')
 
                 commentField.classList.toggle('hide')
 
@@ -164,9 +164,10 @@ inputs.forEach(input => {
 
 // Shows the file selected to upload directly on the page
 let openFile = function(event) {
+    
     let input = event.target;
-
     let reader = new FileReader();
+
     reader.onload = function(){
       let dataURL = reader.result;
       let output = document.getElementById('output');
