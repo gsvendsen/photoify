@@ -1,9 +1,7 @@
-<div style=" height:20%;">
-    <p style="background-color:#131C21; padding: 40px;" align="center">
-        <img alt="Photoify Logo" title="Photoify"
-        src="assets/images/photoify.png" width="150">
-    </p>
-</div>
+<p style="padding: 40px;" align="center">
+    <img alt="Photoify Logo" title="Photoify"
+    src="https://i.imgur.com/3L1V8SQ.png" width="200">
+</p>
 
 #### Introduction
 
