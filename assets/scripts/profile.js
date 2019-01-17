@@ -14,7 +14,14 @@ function fetchProfile(username) {
         profileContainer.innerHTML += '<p class="warning-message">User "'+username+'" could not be found.</p>';
     } else {
         profileContainer.innerHTML += createProfile(userData);
-        profileContainer.innerHTML += createPosts(userPosts);
+
+        if(userPosts.length == 0){
+            profileContainer.innerHTML += `
+                <p class="message">Nothing posted yet! Try doing that <a href="/post.php">here</a></p>
+            `
+        } else {
+            profileContainer.innerHTML += createPosts(userPosts);
+        }
         addEvents();
     }
 
