@@ -1,6 +1,6 @@
 <p style="padding: 40px;" align="center">
     <img alt="Photoify Logo" title="Photoify"
-    src="https://i.imgur.com/3L1V8SQ.png" width="200">
+    src="https://i.imgur.com/3L1V8SQ.png" width="300">
 </p>
 
 #### Introduction
@@ -17,7 +17,7 @@ Photoify is an assignment for the Yrgo WU18 class where I had to create a respon
 
 ### Build Process
 
-The site is made using HTML, CSS, JavaScript and PHP. At first PHP backend was intertwined with the front end. I later on made an API which dynamically fetches post content, user information and comment information. All data is stored in a database file which is communicated to with SQL.
+The site is made using HTML, CSS, JavaScript and PHP. At first PHP backend was used directly on the front end. I later on made an API which dynamically fetches post content, user information and comment information in JSON format which JavaScript handles. All data is stored in a database file which is communicated to using SQL.
 
 ### Installation
 
