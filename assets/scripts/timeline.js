@@ -2,7 +2,7 @@ const postContainer = document.querySelector('.post-wrapper')
 
 // Creates posts from timeLine data
 const createTimeline = (timelineData) => {
-    console.log(timelineData)
+
     if(timelineData !== null){
         postContainer.innerHTML += createPosts(timelineData);
     } else {
@@ -14,7 +14,7 @@ const createTimeline = (timelineData) => {
 
 
 // Fetches timeLine data from api using userId
-function fetchTimeline(userId) {
+const fetchTimeline = (userId) => {
   fetch('../../app/api/timeline.php?user='+userId)
   .then(function(response) {
     return response.json();
@@ -26,7 +26,7 @@ function fetchTimeline(userId) {
 }
 
 // Gets userId from current logged in session
-function fetchUserId() {
+const fetchUserId = () => {
   fetch('../../app/api/user.php')
   .then(function(response) {
     return response.json();

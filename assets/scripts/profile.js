@@ -1,7 +1,7 @@
 const profileContainer = document.querySelector('.profile-container');
 
 // Fetches profile from api and creates page using createProfile() and createPosts()
-function fetchProfile(username) {
+const fetchProfile = (username) => {
   fetch('../../app/api/profile.php?user='+username)
   .then(function(response) {
     return response.json();
