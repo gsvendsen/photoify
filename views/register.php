@@ -1,4 +1,4 @@
-<div class="form-wrapper">
+<div class="register-form-wrapper">
 
     <img class="start-logo" src="assets/images/photoify.png">
 
@@ -26,6 +26,13 @@
             <input type="password" name="password" placeholder="••••••••" required>
             <small>Please provide your password. (min 8 chars)</small>
         </div><!-- /form-group -->
+
+        <div class="form-section">
+            <label for="confirm-password">Confirm Password</label>
+            <input type="password" name="confirm-password" placeholder="••••••••" required>
+            <small>Confirm your password</small>
+        </div><!-- /form-group -->
+
 
         <div class="form-center">
             <?php if(isset($_SESSION['error'])): ?>

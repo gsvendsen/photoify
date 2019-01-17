@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 require __DIR__.'/../autoload.php';
 // In this file we login users.
-if(isset($_POST['email'], $_POST['password'], $_POST['name'], $_POST['username'])){
+if(isset($_POST['email'], $_POST['password'], $_POST['confirm-password'], $_POST['name'], $_POST['username'])){
 
   $email = filter_var(trim($_POST['email']), FILTER_SANITIZE_STRING);
   $username = filter_var(trim($_POST['username']), FILTER_SANITIZE_STRING);
@@ -14,6 +14,11 @@ if(isset($_POST['email'], $_POST['password'], $_POST['name'], $_POST['username']
   $coverImagePath = "/assets/images/cover_default.jpg";
 
   $charLimit = 100;
+
+  if($_POST['password'] !== $_POST['confirm-password']){
+      $_SESSION['error']['message'] = "Passwords did not match!";
+      redirect("/?q=register");
+  }
 
   // User input validation
   if(strlen($username) > $charLimit || strlen($name) > $charLimit){
@@ -92,7 +97,7 @@ if(isset($_POST['email'], $_POST['password'], $_POST['name'], $_POST['username']
     redirect("/?q=register");
 
   }
-  
+
 }
 
 redirect("/");
