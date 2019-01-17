@@ -51,10 +51,6 @@ if(isset($_FILES['image'], $_POST['description'])){
 
                 $statement2 = $pdo->prepare('UPDATE posts SET img_path = :img_path WHERE id = :id');
 
-                if(!$statement2){
-                    print_r($pdo->errorInfo());
-                }
-
                 $statement2->bindParam(':img_path', $dbDir, PDO::PARAM_STR);
                 $statement2->bindParam(':id', $postId, PDO::PARAM_STR);
 
