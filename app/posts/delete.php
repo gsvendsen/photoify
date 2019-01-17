@@ -18,7 +18,7 @@ if(!isset($_GET['locale'])){
     if(!$postUserId){
         $_SESSION['messages'][] = "The post you tried to delete does not exist.";
         redirect("/");
-    } elseif($_SESSION['user']['id'] !== $postUserId['user_id']){
+    } elseif(intval($_SESSION['user']['id']) !== intval($postUserId['user_id'])){
         $_SESSION['messages'][] = "You do not have authorization to delete that post.";
         redirect("/");
     } else {
