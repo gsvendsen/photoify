@@ -12,7 +12,7 @@
         <div class="form-section">
             <label for="password">Password</label>
             <input type="password" name="password" required>
-            <small>Please provide your password (passphrase).</small>
+            <small>Please provide your password.</small>
         </div><!-- /form-group -->
 
         <div class="form-center">
