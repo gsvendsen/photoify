@@ -12,6 +12,8 @@ if(isset($_POST['email'], $_POST['password'], $_POST['confirm-password'], $_POST
   $passwordHash = password_hash(filter_var(trim($_POST['password']), FILTER_SANITIZE_STRING), PASSWORD_BCRYPT);
   $imagePath = "/assets/images/phoimg_default.png";
   $coverImagePath = "/assets/images/cover_default.jpg";
+  $biography = "";
+
 
   $charLimit = 100;
 
@@ -50,7 +52,7 @@ if(isset($_POST['email'], $_POST['password'], $_POST['confirm-password'], $_POST
   if(!$user){
 
     // Insert user data into user table in database
-    $statement = $pdo->prepare('INSERT INTO users (name, email, password, image_path, banner_image_path, username) VALUES (:name, :email, :password, :image_path, :banner_image_path, :username)');
+    $statement = $pdo->prepare('INSERT INTO users (name, email, password, image_path, banner_image_path, username, biography) VALUES (:name, :email, :password, :image_path, :banner_image_path, :username, :biography)');
 
     $statement->bindParam(':name', $name, PDO::PARAM_STR);
     $statement->bindParam(':email', $email, PDO::PARAM_STR);
@@ -58,6 +60,7 @@ if(isset($_POST['email'], $_POST['password'], $_POST['confirm-password'], $_POST
     $statement->bindParam(':image_path', $imagePath, PDO::PARAM_STR);
     $statement->bindParam(':banner_image_path', $coverImagePath, PDO::PARAM_STR);
     $statement->bindParam(':username', $username, PDO::PARAM_STR);
+    $statement->bindParam(':biography', $biography, PDO::PARAM_STR);
 
     $statement->execute();
 
