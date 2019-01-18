@@ -11,7 +11,7 @@ if(isset($_GET['user'])){
     $userQuery = filter_var($_GET['user'],FILTER_SANITIZE_STRING);
 
     // Fetches user data
-    $selectStatement = $pdo->prepare('SELECT id, name, username, image_path, banner_image_path FROM users WHERE username = :username');
+    $selectStatement = $pdo->prepare('SELECT id, name, username, image_path, banner_image_path, biography FROM users WHERE username = :username');
 
     $selectStatement->bindParam(':username', $userQuery, PDO::PARAM_STR);
 
