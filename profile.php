@@ -22,6 +22,10 @@
             <input type="text" value="<?= $user['name'] ?>" name="name">
         </div><!-- / form-section -->
 
+        <div class="form-section">
+            <label for="biography">Biography (60 chars)</label>
+            <textarea type="text" name="biography" placeholder="Write something about you!"></textarea>
+        </div><!-- / form-section -->
 
         <div class="form-section">
             <label for="username">Username</label>

@@ -89,6 +89,30 @@ if(!isset($_SESSION['user'])){
 
     }
 
+    // If biograhy update was posted
+    if(isset($_POST['biography']) && $_POST['biography'] !== ""){
+
+
+        $biography = filter_var(trim($_POST['biography']), FILTER_SANITIZE_STRING);
+
+        // If biography is over character limit
+        if(strlen($biography) > 60){
+            $_SESSION['error']['message'] = "Biography cannot be longer than 60 characters!";
+            redirect('/profile.php');
+        } else {
+
+            $updateStatement = $pdo->prepare("UPDATE users SET biography = :biography WHERE id = :id");
+
+            $updateStatement->bindParam(':biography', $biography, PDO::PARAM_STR);
+            $updateStatement->bindParam(':id', $id, PDO::PARAM_STR);
+
+            $updateStatement->execute();
+
+            $_SESSION['messages'][] = "Your bio has been updated!";
+
+        }
+    }
+
     // Updates profile picture if file was uploaded
     if(isset($_FILES['profile-picture'])){
 
@@ -163,6 +187,7 @@ if(!isset($_SESSION['user'])){
 
         if(preg_match('/\s/',$username) ){
             $_SESSION['error']['message'] = "Username can't contain spaces!";
+            redirect('/profile.php');
         } else {
 
             $updateStatement = $pdo->prepare("UPDATE users SET username = :username WHERE id = :id");
@@ -190,6 +215,7 @@ $user = $statement->fetch(PDO::FETCH_ASSOC);
 $_SESSION['user'] = [
   'id' => $user['id'],
   'name' => $user['name'],
+  'biography' => $user['biography'],
   'email' => $user['email'],
   'username' => $user['username'],
   'img_path' => $user['image_path'],
