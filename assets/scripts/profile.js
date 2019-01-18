@@ -66,7 +66,9 @@ const createProfile = (userData) => {
     profilePage += `
         </div>
         <img class="profile-banner" src="${userData.banner_image_path}">
-        <p>${userData.biography}</p>
+        <div class="profile-bio">
+            <p>${userData.biography}</p>
+        </div>
     </div>
     `
 
