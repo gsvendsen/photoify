@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 require __DIR__.'/../autoload.php';
-
+// In this file we create new posts
 
 if(isset($_FILES['image'], $_POST['description'])){
 

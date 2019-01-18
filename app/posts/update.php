@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 require __DIR__.'/../autoload.php';
-
+// In this file we update a posts description
 
 if(!isset($_SESSION['user'], $_POST['description'], $_GET['post'])){
     redirect('/');

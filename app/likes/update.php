@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 require __DIR__.'/../autoload.php';
-
+// In this file we update likes and dislikes and return the total like count for a post
 if(isset($_GET['post'], $_GET['like'])){
 
     $postId = filter_var(trim($_GET['post']), FILTER_SANITIZE_STRING);

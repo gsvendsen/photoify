@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 require __DIR__.'/../autoload.php';
 
-header('Content-Type: application/json');
+// In this file we fetch a posts comments and return them as a JSON
 
 if(!isset($_GET['post'])){
     redirect("/");

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 require __DIR__.'/../autoload.php';
-
+// In this file user is deleted
 if(!isset($_SESSION['user'])){
     redirect('/');
 } else {

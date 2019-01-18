@@ -4,11 +4,9 @@ declare(strict_types=1);
 
 require __DIR__.'/../autoload.php';
 
-header('Content-Type: application/json');
+// In this file we fetch a users profile data and return it as a JSON
 
-if(!isset($_GET['user'])){
-    redirect("/");
-} else {
+if(isset($_GET['user'])){
 
     $userQuery = filter_var($_GET['user'],FILTER_SANITIZE_STRING);
 
@@ -78,7 +76,7 @@ if(!isset($_GET['user'])){
                 $post['liked'] = false;
                 $post['disliked'] = false;
             }
-            
+
             $post['likes'] = $likeTotal;
 
             $post['user'] = $user;

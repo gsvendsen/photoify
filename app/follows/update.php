@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 require __DIR__.'/../autoload.php';
-
+// In this file we update a follow between two users
 if(isset($_GET['follow'])){
     $followId = filter_var(trim($_GET['follow']), FILTER_SANITIZE_STRING);
     $userId = $_SESSION['user']['id'];

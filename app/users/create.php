@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 require __DIR__.'/../autoload.php';
-// In this file we login users.
+// In this file we register new users.
 if(isset($_POST['email'], $_POST['password'], $_POST['confirm-password'], $_POST['name'], $_POST['username'])){
 
   $email = filter_var(trim($_POST['email']), FILTER_SANITIZE_STRING);
