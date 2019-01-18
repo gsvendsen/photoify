@@ -74,6 +74,7 @@ if(isset($_POST['email'], $_POST['password'], $_POST['confirm-password'], $_POST
       'id' => $user['id'],
       'name' => $user['name'],
       'email' => $user['email'],
+      'biography' => $user['biography'],
       'img_path' => $user['image_path'],
       'banner_path' => $user['banner_image_path'],
       'username' => $user['username'],

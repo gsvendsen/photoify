@@ -35,6 +35,7 @@ if(isset($_POST['email'], $_POST['password'])){
       $_SESSION['user'] = [
         'id' => $user['id'],
         'name' => $user['name'],
+        'biography' => $user['biography'],
         'email' => $user['email'],
         'img_path' => $user['image_path'],
         'username' => $user['username'],
