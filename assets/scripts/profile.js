@@ -16,9 +16,15 @@ const fetchProfile = (username) => {
         profileContainer.innerHTML += createProfile(userData);
 
         if(userPosts.length == 0){
-            profileContainer.innerHTML += `
+            if(userData.self){
+                profileContainer.innerHTML += `
                 <p class="message">Nothing posted yet! Try doing that <a href="/post.php">here</a></p>
-            `
+                `
+            } else {
+                profileContainer.innerHTML += `
+                <p class="message">This user has not posted anything yet!</p>
+                `
+            }
         } else {
             profileContainer.innerHTML += createPosts(userPosts);
         }
