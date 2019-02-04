@@ -6,9 +6,8 @@ require __DIR__.'/../autoload.php';
 
 // In this file we fetch a users timeline (own posts and posts of who they follow) and return it as a JSON
 
-if(isset($_GET['user'])){
-
-    $userQuery = filter_var($_GET['user'],FILTER_SANITIZE_STRING);
+if (isset($_GET['user'])) {
+    $userQuery = filter_var($_GET['user'], FILTER_SANITIZE_STRING);
 
     // Fetches user data
     $selectStatement = $pdo->prepare('SELECT * FROM follows WHERE follower_id = :user_id');
@@ -58,7 +57,7 @@ if(isset($_GET['user'])){
 
         $postUser = $selectStatement->fetch(PDO::FETCH_ASSOC);
 
-        if($post['user_id'] == $_SESSION['user']['id']){
+        if ($post['user_id'] == $_SESSION['user']['id']) {
             $post['auth'] = 'true';
         } else {
             $post['auth'] = 'false';
@@ -73,8 +72,8 @@ if(isset($_GET['user'])){
         $likeExists = $selectStatement->fetch(PDO::FETCH_ASSOC);
 
         // Setting posts like and dislikes bools depending if/what previous like exists
-        if($likeExists){
-            if($likeExists['like'] == 1){
+        if ($likeExists) {
+            if ($likeExists['like'] == 1) {
                 $post['disliked'] = false;
                 $post['liked'] = true;
             } else {

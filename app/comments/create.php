@@ -4,14 +4,11 @@ declare(strict_types=1);
 
 require __DIR__.'/../autoload.php';
 
-if(isset($_GET['post'], $_GET['content'])){
+if (isset($_GET['post'], $_GET['content'])) {
+    $postId = filter_var(trim($_GET['post']), FILTER_SANITIZE_STRING);
+    $content = filter_var(trim($_GET['content']), FILTER_SANITIZE_STRING);
 
-
-    $postId = filter_var(trim($_GET['post']),FILTER_SANITIZE_STRING);
-    $content = filter_var(trim($_GET['content']),FILTER_SANITIZE_STRING);
-
-    if($content !== ""){
-
+    if ($content !== "") {
         $statement = $pdo->prepare('INSERT INTO comments (content, post_id, user_id) VALUES (:content, :post_id, :user_id)');
 
         $statement->bindParam(':content', $content, PDO::PARAM_STR);
@@ -21,11 +18,9 @@ if(isset($_GET['post'], $_GET['content'])){
         $statement->execute();
 
         $return['success'] = true;
-
     } else {
         $return['success'] = false;
     }
-
 } else {
     $return['success'] = false;
 }

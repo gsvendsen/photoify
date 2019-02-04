@@ -13,8 +13,8 @@ $userPosts = $selectStatement->fetchAll(PDO::FETCH_ASSOC);
 
 ?>
 
-<?php if(isset($_SESSION['messages'])) : ?>
-    <?php foreach($_SESSION['messages'] as $message) : ?>
+<?php if (isset($_SESSION['messages'])) : ?>
+    <?php foreach ($_SESSION['messages'] as $message) : ?>
         <div class="alert alert-success" role="alert">
           <?=  $message ?>
         </div>
@@ -22,7 +22,7 @@ $userPosts = $selectStatement->fetchAll(PDO::FETCH_ASSOC);
 
 <?php endif; ?>
 
-<?php if(isset($_GET['u'])): ?>
+<?php if (isset($_GET['u'])): ?>
     <?php require __DIR__."/profile.php"; ?>
 <?php else: ?>
     <?php require __DIR__.'/posts.php'; ?>

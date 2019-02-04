@@ -6,9 +6,8 @@ require __DIR__.'/../autoload.php';
 
 // In this file we fetch a users profile data and return it as a JSON
 
-if(isset($_GET['user'])){
-
-    $userQuery = filter_var($_GET['user'],FILTER_SANITIZE_STRING);
+if (isset($_GET['user'])) {
+    $userQuery = filter_var($_GET['user'], FILTER_SANITIZE_STRING);
 
     // Fetches user data
     $selectStatement = $pdo->prepare('SELECT id, name, username, image_path, banner_image_path, biography FROM users WHERE username = :username');
@@ -19,7 +18,7 @@ if(isset($_GET['user'])){
 
     $user = $selectStatement->fetch(PDO::FETCH_ASSOC);
 
-    if(!$user){
+    if (!$user) {
         $user['error'] = "User not found.";
         $jsonData = json_encode($user);
         header('Content-Type: application/json');
@@ -50,7 +49,7 @@ if(isset($_GET['user'])){
                 $likeTotal += $value['like'];
             }
 
-            if($post['user_id'] == $_SESSION['user']['id']){
+            if ($post['user_id'] == $_SESSION['user']['id']) {
                 $post['auth'] = 'true';
             } else {
                 $post['auth'] = 'false';
@@ -64,8 +63,8 @@ if(isset($_GET['user'])){
 
             $likeExists = $selectStatement->fetch(PDO::FETCH_ASSOC);
 
-            if($likeExists){
-                if($likeExists['like'] == 1){
+            if ($likeExists) {
+                if ($likeExists['like'] == 1) {
                     $post['disliked'] = false;
                     $post['liked'] = true;
                 } else {
@@ -92,7 +91,7 @@ if(isset($_GET['user'])){
 
         $followExists = $selectStatement->fetchAll(PDO::FETCH_ASSOC);
 
-        if(!$followExists){
+        if (!$followExists) {
             $user['follows'] = "false";
         } else {
             $user['follows'] = "true";

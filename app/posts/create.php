@@ -5,26 +5,20 @@ declare(strict_types=1);
 require __DIR__.'/../autoload.php';
 // In this file we create new posts
 
-if(isset($_FILES['image'], $_POST['description'])){
-
+if (isset($_FILES['image'], $_POST['description'])) {
     $characterLimit = 64;
 
     $fileTypes = ['image/png', 'image/jpg', 'image/jpeg'];
 
-    $description = filter_var(trim($_POST['description']),FILTER_SANITIZE_STRING);
+    $description = filter_var(trim($_POST['description']), FILTER_SANITIZE_STRING);
 
     // If image file type is allowed
-    if(in_array($_FILES['image']['type'], $fileTypes)){
-
-        if($description !== ""){
-
-            if(strlen($description) > $characterLimit){
-
+    if (in_array($_FILES['image']['type'], $fileTypes)) {
+        if ($description !== "") {
+            if (strlen($description) > $characterLimit) {
                 $_SESSION['error']['message'] = "Description can only be {$characterLimit} characters long!";
                 redirect("/post.php");
-
             } else {
-
                 $date = getDate();
                 $formatDate = "{$date['year']}-{$date['mon']}-{$date['mday']}";
 
@@ -44,8 +38,8 @@ if(isset($_FILES['image'], $_POST['description'])){
 
                 $uniqueId = uniqid();
 
-                $info = explode('.', strtolower( $_FILES['image']['name']) );
-                move_uploaded_file( $_FILES['image']['tmp_name'], "{$postDir}/phoimg_{$uniqueId}.{$info[1]}");
+                $info = explode('.', strtolower($_FILES['image']['name']));
+                move_uploaded_file($_FILES['image']['tmp_name'], "{$postDir}/phoimg_{$uniqueId}.{$info[1]}");
 
                 $dbDir = "/app/data/{$_SESSION['user']['id']}/posts/{$postId}/phoimg_{$uniqueId}.{$info[1]}";
 
@@ -57,14 +51,11 @@ if(isset($_FILES['image'], $_POST['description'])){
                 $statement2->execute();
 
                 $_SESSION['messages'][] = "New post was uploaded!";
-
             }
-
         } else {
-                $_SESSION['error']['message'] = "No description was given!";
-                redirect("/post.php");
-            }
-
+            $_SESSION['error']['message'] = "No description was given!";
+            redirect("/post.php");
+        }
     } else {
         $_SESSION['error']['message'] = "File type {$_FILES['image']['type']} not allowed!";
         redirect("/post.php");

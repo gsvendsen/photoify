@@ -3,7 +3,7 @@
 declare(strict_types=1);
 require __DIR__.'/../autoload.php';
 // In this file user is deleted
-if(!isset($_SESSION['user'])){
+if (!isset($_SESSION['user'])) {
     redirect('/');
 } else {
 
@@ -16,9 +16,8 @@ if(!isset($_SESSION['user'])){
 
     $userPosts = $statement->fetchAll(PDO::FETCH_ASSOC);
 
-    if($userPosts !== false){
-
-        foreach($userPosts as $post){
+    if ($userPosts !== false) {
+        foreach ($userPosts as $post) {
 
             // Removes likes on users posts table
             $statement = $pdo->prepare("DELETE FROM likes WHERE post_id = :id");
@@ -33,7 +32,6 @@ if(!isset($_SESSION['user'])){
             $statement->bindParam(":id", $post['id'], PDO::PARAM_STR);
 
             $statement->execute();
-
         }
     }
 

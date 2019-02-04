@@ -4,7 +4,7 @@
 
     <?php
     // If user is logged in
-    if(isset($_SESSION['user'])):  ?>
+    if (isset($_SESSION['user'])):  ?>
 
     <?php require __DIR__.'/views/home.php'; ?>
 

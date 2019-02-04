@@ -6,11 +6,10 @@ require __DIR__.'/../autoload.php';
 
 // In this file we fetch a posts comments and return them as a JSON
 
-if(!isset($_GET['post'])){
+if (!isset($_GET['post'])) {
     redirect("/");
 } else {
-
-    $postId = filter_var($_GET['post'],FILTER_SANITIZE_STRING);
+    $postId = filter_var($_GET['post'], FILTER_SANITIZE_STRING);
 
     // Fetches user data
     $selectStatement = $pdo->prepare('SELECT * FROM comments WHERE post_id = :post_id ORDER BY id DESC');
@@ -21,13 +20,12 @@ if(!isset($_GET['post'])){
 
     $commentsData = $selectStatement->fetchAll(PDO::FETCH_ASSOC);
 
-    if(!$commentsData){
+    if (!$commentsData) {
         $user['error'] = "No comments for this post";
         $jsonData = json_encode($user);
         header('Content-Type: application/json');
         echo $jsonData;
     } else {
-
         $comments = [];
 
         foreach ($commentsData as $comment) {
@@ -43,7 +41,7 @@ if(!isset($_GET['post'])){
 
             $comment['user'] = $commentUser;
 
-            if($comment['user']['id'] == $_SESSION['user']['id']){
+            if ($comment['user']['id'] == $_SESSION['user']['id']) {
                 $comment['self'] = true;
             } else {
                 $comment['self'] = false;

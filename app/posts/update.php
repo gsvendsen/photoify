@@ -5,10 +5,9 @@ declare(strict_types=1);
 require __DIR__.'/../autoload.php';
 // In this file we update a posts description
 
-if(!isset($_SESSION['user'], $_POST['description'], $_GET['post'])){
+if (!isset($_SESSION['user'], $_POST['description'], $_GET['post'])) {
     redirect('/');
 } else {
-
     $newDescription = filter_var($_POST['description'], FILTER_SANITIZE_STRING);
     $postId = filter_var($_GET['post'], FILTER_SANITIZE_STRING);
 
@@ -20,7 +19,6 @@ if(!isset($_SESSION['user'], $_POST['description'], $_GET['post'])){
     $updateStatement->execute();
 
     $_SESSION['messages'][] = "Your post has been updated!";
-
 }
 
 redirect("/");

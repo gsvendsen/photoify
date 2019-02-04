@@ -24,15 +24,16 @@ if (!function_exists('redirect')) {
  *
  * @return void
  */
-if(!function_exists('rrmdir')) {
-
-    function rrmdir($dir) {
-
-        foreach(glob($dir . '/*') as $file) {
-
-            if(is_dir($file)) rrmdir($file);
-            else unlink($file);
-
-        } rmdir($dir);
+if (!function_exists('rrmdir')) {
+    function rrmdir($dir)
+    {
+        foreach (glob($dir . '/*') as $file) {
+            if (is_dir($file)) {
+                rrmdir($file);
+            } else {
+                unlink($file);
+            }
+        }
+        rmdir($dir);
     }
 }

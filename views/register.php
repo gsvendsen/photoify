@@ -35,7 +35,7 @@
 
 
         <div class="form-center">
-            <?php if(isset($_SESSION['error'])): ?>
+            <?php if (isset($_SESSION['error'])): ?>
               <p class="warning-message">
                 <?= $_SESSION['error']['message'] ?>
              </p>
@@ -45,4 +45,6 @@
         </div>
     </form>
 </div>
-<?php if(isset($_SESSION['error'])){ unset($_SESSION['error']) ;}; ?>
+<?php if (isset($_SESSION['error'])) {
+    unset($_SESSION['error']) ;
+}; ?>

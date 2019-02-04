@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 ?>
 
-<?php if(isset($_SESSION['user'])): ?>
+<?php if (isset($_SESSION['user'])): ?>
 	<div class="top-bar">
         <a href="/?u=<?= $_SESSION['user']['username']?>"><img class="post-profile top-profile" src="<?= $_SESSION['user']['img_path'] ?>" alt=""></a>
         <a href="/"><img class="nav-logo" src="assets/images/photoify.png"></a>

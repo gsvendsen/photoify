@@ -2,8 +2,8 @@
 
 declare(strict_types=1);
 
-if(isset($_GET['q'])){
-    if($_GET['q'] == 'register'){
+if (isset($_GET['q'])) {
+    if ($_GET['q'] == 'register') {
         // Shows register page if q paremeter is register
         require __DIR__.'/register.php';
     } else {
@@ -14,6 +14,3 @@ if(isset($_GET['q'])){
     // Shows log in page otherwise
     require __DIR__.'/login.php';
 }
-
-
-?>

@@ -1,11 +1,15 @@
 <?php require __DIR__.'/views/header.php'; ?>
 
 
-<?php if(!isset($_SESSION['user'])){ redirect("/"); } else { $user = $_SESSION['user'];}?>
+<?php if (!isset($_SESSION['user'])) {
+    redirect("/");
+} else {
+    $user = $_SESSION['user'];
+}?>
 <div class="profile-update-container">
     <h4>Update Information</h4>
 
-    <?php if(isset($_SESSION['error'])): ?>
+    <?php if (isset($_SESSION['error'])): ?>
       <div class="alert alert-danger" role="alert">
         <?= $_SESSION['error']['message'] ?>
       </div>
@@ -58,6 +62,8 @@
 
     <div class="alert-danger delete-account-button" data-id="<?= $_SESSION['user']['id'] ?>"role="button" aria-pressed="true">Delete Account</div>
 </div>
-<?php if(isset($_SESSION['error'])){ unset($_SESSION['error']) ;}; ?>
+<?php if (isset($_SESSION['error'])) {
+    unset($_SESSION['error']) ;
+}; ?>
 
 <?php require __DIR__.'/views/footer.php'; ?>

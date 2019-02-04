@@ -5,7 +5,9 @@
     <form action="app/users/login.php" method="post">
         <div class="form-section">
             <label for="email">Email</label>
-            <input type="email" name="email" placeholder="example@mail.com" value="<?php if(isset($_SESSION['error'])){ echo $_SESSION['error']['email'];} ?>" required>
+            <input type="email" name="email" placeholder="example@mail.com" value="<?php if (isset($_SESSION['error'])) {
+    echo $_SESSION['error']['email'];
+} ?>" required>
             <small>Please provide your email address.</small>
         </div><!-- /form-group -->
 
@@ -16,7 +18,7 @@
         </div><!-- /form-group -->
 
         <div class="form-center">
-            <?php if(isset($_SESSION['error'])): ?>
+            <?php if (isset($_SESSION['error'])): ?>
               <p class="warning-message">
                 <?= $_SESSION['error']['message'] ?>
              </p>
@@ -26,4 +28,6 @@
         </div>
     </form>
 </div>
-<?php if(isset($_SESSION['error'])){ unset($_SESSION['error']) ;}; ?>
+<?php if (isset($_SESSION['error'])) {
+    unset($_SESSION['error']) ;
+}; ?>
